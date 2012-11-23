@@ -73,3 +73,5 @@
 #import "RMTileSourcesContainer.h"
 #import "RMUserLocation.h"
 #import "RMUserTrackingBarButtonItem.h"
+
+#import "RMCustomMapView.h"

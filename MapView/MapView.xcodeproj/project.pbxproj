@@ -49,6 +49,9 @@
 		2DFA78D2166005F7004D2E07 /* RMDBRMapsSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFA78D0166005F7004D2E07 /* RMDBRMapsSource.m */; };
 		2DFA78D5166006E0004D2E07 /* RMOpenCycleMapLandscapeSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DFA78D3166006E0004D2E07 /* RMOpenCycleMapLandscapeSource.h */; };
 		2DFA78D6166006E0004D2E07 /* RMOpenCycleMapLandscapeSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFA78D4166006E0004D2E07 /* RMOpenCycleMapLandscapeSource.m */; };
+		2DFA78D9166008BD004D2E07 /* RMCustomMapViewSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DFA78D7166008BD004D2E07 /* RMCustomMapViewSource.h */; };
+		2DFA78DA166008BD004D2E07 /* RMCustomMapViewSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFA78D8166008BD004D2E07 /* RMCustomMapViewSource.m */; };
+		2DFA78DC16600904004D2E07 /* RMCustomMapView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DFA78DB16600904004D2E07 /* RMCustomMapView.h */; };
 		3849889C0F6F758100496293 /* libProj4.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38D818500F6F67B90034598B /* libProj4.a */; };
 		96492C400FA8AD3400EBA6D2 /* RMGlobalConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 96492C3F0FA8AD3400EBA6D2 /* RMGlobalConstants.h */; };
 		B1EB26C610B5D8E6009F8658 /* RMNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = B1EB26C510B5D8E6009F8658 /* RMNotifications.h */; };
@@ -186,6 +189,9 @@
 		2DFA78D0166005F7004D2E07 /* RMDBRMapsSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMDBRMapsSource.m; sourceTree = "<group>"; };
 		2DFA78D3166006E0004D2E07 /* RMOpenCycleMapLandscapeSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMOpenCycleMapLandscapeSource.h; sourceTree = "<group>"; };
 		2DFA78D4166006E0004D2E07 /* RMOpenCycleMapLandscapeSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMOpenCycleMapLandscapeSource.m; sourceTree = "<group>"; };
+		2DFA78D7166008BD004D2E07 /* RMCustomMapViewSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMCustomMapViewSource.h; sourceTree = "<group>"; };
+		2DFA78D8166008BD004D2E07 /* RMCustomMapViewSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMCustomMapViewSource.m; sourceTree = "<group>"; };
+		2DFA78DB16600904004D2E07 /* RMCustomMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMCustomMapView.h; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MapView_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView_Prefix.pch; sourceTree = "<group>"; };
 		96492C3F0FA8AD3400EBA6D2 /* RMGlobalConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMGlobalConstants.h; sourceTree = "<group>"; };
 		B1EB26C510B5D8E6009F8658 /* RMNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMNotifications.h; sourceTree = "<group>"; };
@@ -322,6 +328,9 @@
 				161E56391594664E00B00BB6 /* RMOpenSeaMapLayer.m */,
 				B83E64ED0E80E73F001663B6 /* RMOpenStreetMapSource.h */,
 				B83E64EE0E80E73F001663B6 /* RMOpenStreetMapSource.m */,
+				2DFA78D7166008BD004D2E07 /* RMCustomMapViewSource.h */,
+				2DFA78D8166008BD004D2E07 /* RMCustomMapViewSource.m */,
+				2DFA78DB16600904004D2E07 /* RMCustomMapView.h */,
 			);
 			name = "Map sources";
 			sourceTree = "<group>";
@@ -624,6 +633,8 @@
 				DD5FA1EB15E2B020004EB6C5 /* RMLoadingTileView.h in Headers */,
 				2DFA78D1166005F7004D2E07 /* RMDBRMapsSource.h in Headers */,
 				2DFA78D5166006E0004D2E07 /* RMOpenCycleMapLandscapeSource.h in Headers */,
+				2DFA78D9166008BD004D2E07 /* RMCustomMapViewSource.h in Headers */,
+				2DFA78DC16600904004D2E07 /* RMCustomMapView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -744,6 +755,7 @@
 				DD5FA1EC15E2B020004EB6C5 /* RMLoadingTileView.m in Sources */,
 				2DFA78D2166005F7004D2E07 /* RMDBRMapsSource.m in Sources */,
 				2DFA78D6166006E0004D2E07 /* RMOpenCycleMapLandscapeSource.m in Sources */,
+				2DFA78DA166008BD004D2E07 /* RMCustomMapViewSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

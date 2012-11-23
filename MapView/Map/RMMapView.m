@@ -134,7 +134,7 @@
 
     UIView *_backgroundView;
     RMMapScrollView *_mapScrollView;
-    RMMapOverlayView *_overlayView;
+    //RMMapOverlayView *_overlayView;
     UIView *_tiledLayersSuperview;
     RMLoadingTileView *_loadingTileView;
 
@@ -197,6 +197,9 @@
 @synthesize userLocation, showsUserLocation, userTrackingMode, displayHeadingCalibration;
 @synthesize missingTilesDepth = _missingTilesDepth;
 @synthesize debugTiles = _debugTiles;
+
+@synthesize overlayView = _overlayView;
+@synthesize customMapView = _customMapView;
 
 #pragma mark -
 #pragma mark Initialization
@@ -377,6 +380,10 @@
         _mapScrollView.frame = bounds;
         _overlayView.frame = bounds;
 
+        // L4C : CustomMapView resizen
+        if ( _customMapView != nil )
+            _customMapView.frame = bounds;
+
         [self setCenterProjectedPoint:centerPoint animated:NO];
 
         [self correctPositionOfAllAnnotations];
@@ -418,6 +425,10 @@
     [userHeadingTrackingView release]; userHeadingTrackingView = nil;
     [userHaloTrackingView release]; userHaloTrackingView = nil;
     [_attributionButton release]; _attributionButton = nil;
+    
+    // L4C : CustomMapView verwerfen
+    [_customMapView release]; _customMapView = nil;
+
     [super dealloc];
 }
 
@@ -1154,6 +1165,10 @@
 
     [self insertSubview:_overlayView aboveSubview:_mapScrollView];
 
+    // L4C : CustomMapView unter OverlayView
+    if ( _customMapView != nil )
+        [self insertSubview:_customMapView belowSubview:_overlayView];
+
     // add gesture recognizers
 
     // one finger taps
@@ -1413,6 +1428,13 @@
 
     if (_delegateHasMapViewRegionDidChange)
         [_delegate mapViewRegionDidChange:self];
+
+    // L4C : CustomMapSource informieren
+    if ( _customMapView != nil ) {
+        if ( [_customMapView respondsToSelector:@selector(mapViewRegionDidChange:)] ) {
+            [_customMapView mapViewRegionDidChange:self];
+        }
+    }
 }
 
 #pragma mark - Gesture Recognizers and event handling
