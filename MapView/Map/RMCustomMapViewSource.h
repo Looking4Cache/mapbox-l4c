@@ -1,6 +1,6 @@
 //
-// MapBox.h
-// 
+//  OpenStreetMapsSource.h
+//
 // Copyright (c) 2008-2012, Route-Me Contributors
 // All rights reserved.
 //
@@ -25,30 +25,11 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-// The list of header files for more convenient Route-Me import to projects.
-// (in alphabetic order)
+#import <Foundation/Foundation.h>
+#import "RMTileSource.h"
 
-#import "RMAnnotation.h"
-#import "RMCacheObject.h"
-#import "RMCircle.h"
-#import "RMCompositeSource.h"
-#import "RMCoordinateGridSource.h"
-#import "RMDatabaseCache.h"
-#import "RMInteractiveSource.h"
-#import "RMMBTilesSource.h"
-#import "RMMapBoxSource.h"
-#import "RMMapView.h"
-#import "RMMapViewDelegate.h"
-#import "RMMarker.h"
-#import "RMMemoryCache.h"
-#import "RMPointAnnotation.h"
-#import "RMPolygonAnnotation.h"
-#import "RMPolylineAnnotation.h"
-#import "RMShape.h"
-#import "RMStaticMapView.h"
-#import "RMTileCache.h"
-#import "RMTileMillSource.h"
-#import "RMUserLocation.h"
-#import "RMUserTrackingBarButtonItem.h"
+@interface RMCustomMapViewSource : RMAbstractMercatorTileSource <RMTileSource>
 
-#import "RMCustomMapView.h"
+- (id)initWithMapView:(RMMapView *)mapView andCustomMapView:(UIView<RMCustomMapView> *)customMapView;
+
+@end

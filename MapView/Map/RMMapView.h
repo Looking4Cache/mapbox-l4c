@@ -479,4 +479,13 @@ typedef enum : NSUInteger {
 *   @param animated Whether changes to the map center or rotation should be animated when the mode is changed. */
 - (void)setUserTrackingMode:(RMUserTrackingMode)mode animated:(BOOL)animated;
 
+/** L4C : Ausrichtung der Karte anhand Kompass */
+- (void)updateHeading:(CLLocationDirection)heading animated:(BOOL)animated;
+
+/** L4C : Overlay nach aussen geben */
+@property (nonatomic, readonly) RMMapOverlayView *overlayView;
+
+/** L4C : Zusätzliche Custom-Map-View */
+@property (nonatomic, assign) UIView<RMCustomMapView> *customMapView;
+
 @end

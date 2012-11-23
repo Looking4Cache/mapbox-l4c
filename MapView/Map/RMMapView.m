@@ -142,7 +142,7 @@
 
     UIView *_backgroundView;
     RMMapScrollView *_mapScrollView;
-    RMMapOverlayView *_overlayView;
+    //RMMapOverlayView *_overlayView;
     UIView *_tiledLayersSuperview;
     RMLoadingTileView *_loadingTileView;
 
@@ -212,6 +212,9 @@
 @synthesize debugTiles = _debugTiles;
 @synthesize hideAttribution = _hideAttribution;
 @synthesize showLogoBug = _showLogoBug;
+
+@synthesize overlayView = _overlayView;
+@synthesize customMapView = _customMapView;
 
 #pragma mark -
 #pragma mark Initialization
@@ -385,6 +388,10 @@
         _backgroundView.frame = bounds;
         _mapScrollView.frame = bounds;
         _overlayView.frame = bounds;
+
+        // L4C : CustomMapView resizen
+        if ( _customMapView != nil )
+            _customMapView.frame = bounds;
 
         [self setCenterProjectedPoint:centerPoint animated:NO];
 
@@ -1197,6 +1204,10 @@
 
     [self insertSubview:_overlayView aboveSubview:_mapScrollView];
 
+    // L4C : CustomMapView unter OverlayView
+    if ( _customMapView != nil )
+        [self insertSubview:_customMapView belowSubview:_overlayView];
+
     // add gesture recognizers
 
     // one finger taps
@@ -1460,6 +1471,13 @@
 
     if (_delegateHasMapViewRegionDidChange)
         [_delegate mapViewRegionDidChange:self];
+
+    // L4C : CustomMapSource informieren
+    if ( _customMapView != nil ) {
+        if ( [_customMapView respondsToSelector:@selector(mapViewRegionDidChange:)] ) {
+            [_customMapView mapViewRegionDidChange:self];
+        }
+    }
 }
 
 #pragma mark - Gesture Recognizers and event handling
@@ -3280,6 +3298,38 @@
         [_locationManager performSelector:@selector(dismissHeadingCalibrationDisplay) withObject:nil afterDelay:10.0];
 
     return self.displayHeadingCalibration;
+}
+
+- (void)updateHeading:(CLLocationDirection)heading animated:(BOOL)animated
+{
+    // L4C : Ausrichtung der Karte anhand Kompass
+    float duration = animated ? 0.5 : 0.0;
+    [CATransaction begin];
+    [CATransaction setAnimationDuration:duration];
+    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+    
+    [UIView animateWithDuration:duration
+                          delay:0.0
+                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationCurveEaseOut
+                     animations:^(void)
+     {
+         CGFloat angle = (M_PI / -180) * heading;
+         
+         _mapTransform = CGAffineTransformMakeRotation(angle);
+         _annotationTransform = CATransform3DMakeAffineTransform(CGAffineTransformMakeRotation(-angle));
+         
+         _mapScrollView.transform = _mapTransform;
+         _overlayView.transform   = _mapTransform;
+         
+         for (RMAnnotation *annotation in _annotations)
+             if ([annotation.layer isKindOfClass:[RMMarker class]] && ! annotation.isUserLocationAnnotation)
+                 annotation.layer.transform = _annotationTransform;
+         
+         [self correctPositionOfAllAnnotations];
+     }
+                     completion:nil];
+    
+    [CATransaction commit];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading

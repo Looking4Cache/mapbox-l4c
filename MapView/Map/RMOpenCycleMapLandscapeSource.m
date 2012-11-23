@@ -1,6 +1,6 @@
 //
-// MapBox.h
-// 
+//  OpenCycleMapSource.m
+//
 // Copyright (c) 2008-2012, Route-Me Contributors
 // All rights reserved.
 //
@@ -25,30 +25,54 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-// The list of header files for more convenient Route-Me import to projects.
-// (in alphabetic order)
+#import "RMOpenCycleMapLandscapeSource.h"
 
-#import "RMAnnotation.h"
-#import "RMCacheObject.h"
-#import "RMCircle.h"
-#import "RMCompositeSource.h"
-#import "RMCoordinateGridSource.h"
-#import "RMDatabaseCache.h"
-#import "RMInteractiveSource.h"
-#import "RMMBTilesSource.h"
-#import "RMMapBoxSource.h"
-#import "RMMapView.h"
-#import "RMMapViewDelegate.h"
-#import "RMMarker.h"
-#import "RMMemoryCache.h"
-#import "RMPointAnnotation.h"
-#import "RMPolygonAnnotation.h"
-#import "RMPolylineAnnotation.h"
-#import "RMShape.h"
-#import "RMStaticMapView.h"
-#import "RMTileCache.h"
-#import "RMTileMillSource.h"
-#import "RMUserLocation.h"
-#import "RMUserTrackingBarButtonItem.h"
+@implementation RMOpenCycleMapLandscapeSource
 
-#import "RMCustomMapView.h"
+- (id)init
+{
+	if (!(self = [super init]))
+        return nil;
+    
+    self.minZoom = 1;
+    self.maxZoom = 18;
+    
+	return self;
+}
+
+- (NSURL *)URLForTile:(RMTile)tile
+{
+    // L4C : Weiter rein zoomen
+	NSAssert4(((tile.zoom >= self.minZoom) && (tile.zoom <= self.maxZoom)),
+			  @"%@ tried to retrieve tile with zoomLevel %d, outside source's defined range %f to %f",
+			  self, tile.zoom, self.minZoom, self.maxZoom);
+    
+	return [NSURL URLWithString:[NSString stringWithFormat:@"http://tile3.opencyclemap.org/landscape/%d/%d/%d.png", tile.zoom, tile.x, tile.y]];
+}
+
+- (NSString *)uniqueTilecacheKey
+{
+	return @"OpenCycleMapLandscape";
+}
+
+- (NSString *)shortName
+{
+	return @"Open Cycle Map Landscape";
+}
+
+- (NSString *)longDescription
+{
+	return @"Open Cycle Map, the free wiki world map, provides freely usable map data for all parts of the world, under the Creative Commons Attribution-Share Alike 2.0 license.";
+}
+
+- (NSString *)shortAttribution
+{
+	return @"© OpenCycleMap CC-BY-SA";
+}
+
+- (NSString *)longAttribution
+{
+	return @"Map data © OpenCycleMap, licensed under Creative Commons Share Alike By Attribution.";
+}
+
+@end

@@ -146,4 +146,7 @@
 // Used internally
 @property (nonatomic, retain) RMMapView *mapView;
 
+/** L4C : User Data */
+@property (nonatomic, retain) id data;
+
 @end
