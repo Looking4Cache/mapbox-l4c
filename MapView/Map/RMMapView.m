@@ -3027,6 +3027,38 @@
     return self.displayHeadingCalibration;
 }
 
+- (void)updateHeading:(CLLocationDirection)heading animated:(BOOL)animated
+{
+    // L4C : Ausrichtung der Karte anhand Kompass
+    float duration = animated ? 0.5 : 0.0;
+    [CATransaction begin];
+    [CATransaction setAnimationDuration:duration];
+    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+    
+    [UIView animateWithDuration:duration
+                          delay:0.0
+                        options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationCurveEaseOut
+                     animations:^(void)
+     {
+         CGFloat angle = (M_PI / -180) * heading;
+         
+         _mapTransform = CGAffineTransformMakeRotation(angle);
+         _annotationTransform = CATransform3DMakeAffineTransform(CGAffineTransformMakeRotation(-angle));
+         
+         _mapScrollView.transform = _mapTransform;
+         _overlayView.transform   = _mapTransform;
+         
+         for (RMAnnotation *annotation in _annotations)
+             if ([annotation.layer isKindOfClass:[RMMarker class]] && ! annotation.isUserLocationAnnotation)
+                 annotation.layer.transform = _annotationTransform;
+         
+         [self correctPositionOfAllAnnotations];
+     }
+                     completion:nil];
+    
+    [CATransaction commit];
+}
+
 - (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading
 {
     if ( ! showsUserLocation || _mapScrollView.isDragging || newHeading.headingAccuracy < 0)
