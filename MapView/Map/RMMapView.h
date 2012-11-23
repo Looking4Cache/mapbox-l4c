@@ -477,4 +477,7 @@ typedef enum : NSUInteger {
 /** L4C : Ausrichtung der Karte anhand Kompass */
 - (void)updateHeading:(CLLocationDirection)heading animated:(BOOL)animated;
 
+/** L4C : Overlay nach aussen geben */
+@property (nonatomic, readonly) RMMapOverlayView *overlayView;
+
 @end
