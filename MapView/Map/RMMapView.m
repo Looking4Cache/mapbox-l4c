@@ -985,7 +985,10 @@
                                      ((_mapScrollView.contentOffset.y + pivot.y) - (newZoomSize.height * factorY)) / zoomScale,
                                      newZoomSize.width / zoomScale,
                                      newZoomSize.height / zoomScale);
-        [_mapScrollView zoomToRect:zoomRect animated:animated];
+
+        // L4C : Wenn animated:YES wackeln die Annotations
+        [_mapScrollView zoomToRect:zoomRect animated:NO];
+        //[_mapScrollView zoomToRect:zoomRect animated:YES];
     }
     else
     {
