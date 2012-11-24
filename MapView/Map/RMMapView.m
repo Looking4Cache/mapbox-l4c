@@ -142,7 +142,7 @@
 
     UIView *_backgroundView;
     RMMapScrollView *_mapScrollView;
-    //RMMapOverlayView *_overlayView;
+    RMMapOverlayView *_overlayView;
     UIView *_tiledLayersSuperview;
     RMLoadingTileView *_loadingTileView;
 
@@ -447,6 +447,10 @@
     [_userHaloTrackingView release]; _userHaloTrackingView = nil;
     [_attributionButton release]; _attributionButton = nil;
     [_logoBug release]; _logoBug = nil;
+    
+    // L4C : CustomMapView verwerfen
+    [_customMapView release]; _customMapView = nil;
+
     [super dealloc];
 }
 
@@ -2595,7 +2599,7 @@
     [CATransaction begin];
 
     // Synchronize marker movement with the map scroll view
-    if (animated && !_mapScrollView.isZooming)
+    /*if (animated && !_mapScrollView.isZooming)
     {
         [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
         [CATransaction setAnimationDuration:0.30];
@@ -2603,7 +2607,8 @@
     else
     {
         [CATransaction setDisableActions:YES];
-    }
+    }*/
+    [CATransaction setDisableActions:YES];
 
     _accumulatedDelta.x = 0.0;
     _accumulatedDelta.y = 0.0;
@@ -2656,7 +2661,13 @@
                 [_visibleAnnotations addObject:annotation];
             }
 
-            [self correctScreenPosition:annotation animated:animated];
+            // L4C : RMShape (Target-Linie) nicht animated verschieben
+            if ([annotation.layer isKindOfClass:[RMShape class]] ) {
+                [self correctScreenPosition:annotation animated:NO];
+            } else {
+                [self correctScreenPosition:annotation animated:YES];
+            }
+            //[self correctScreenPosition:annotation animated:YES];
 
             [previousVisibleAnnotations removeObject:annotation];
         }

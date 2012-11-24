@@ -26,7 +26,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #import <Foundation/Foundation.h>
-#import "RMTileSource.h"
+#import "RMAbstractMercatorTileSource.h"
+#import "RMCustomMapView.h"
+#import "RMMapView.h"
 
 @interface RMCustomMapViewSource : RMAbstractMercatorTileSource <RMTileSource>
 

@@ -38,6 +38,13 @@
 #import "RMMapScrollView.h"
 #import "RMTileSourcesContainer.h"
 
+// L4C : CustomMapView einbinden
+#import "RMCustomMapView.h"
+
+#define kRMUserLocationAnnotationTypeName   @"RMUserLocationAnnotation"
+#define kRMTrackingHaloAnnotationTypeName   @"RMTrackingHaloAnnotation"
+#define kRMAccuracyCircleAnnotationTypeName @"RMAccuracyCircleAnnotation"
+
 @class RMProjection;
 @class RMFractalTileProjection;
 @class RMTileCache;

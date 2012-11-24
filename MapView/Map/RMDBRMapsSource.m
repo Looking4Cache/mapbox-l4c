@@ -131,7 +131,7 @@
 {
     __block UIImage *image = nil;
 	tile = [[self mercatorToTileProjection] normaliseTile:tile];
-    int z = (tile.zoom * -1) + 17;
+    //int z = (tile.zoom * -1) + 17;
     //NSLog(@"tile: %u %u %u",tile.x, tile.y, z);
     image = [tileCache cachedImage:tile withCacheKey:[self uniqueTilecacheKey]];
     
@@ -167,7 +167,7 @@
 
 - (RMSphericalTrapezium)latitudeLongitudeBoundingBox
 {
-	return kMBTilesDefaultLatLonBoundingBox;
+	return kDefaultLatLonBoundingBox;
 }
 
 - (NSUInteger)tileSideLength
