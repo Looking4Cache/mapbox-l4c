@@ -31,7 +31,12 @@
 #import "RMTileImage.h"
 #import "RMTile.h"
 
-#define kWriteQueueLimit 15
+// L4C : higher Write Query
+//#define kWriteQueueLimit 15
+#define kWriteQueueLimit 100
+
+// L4C : Memory Cache limit (0 to disable)
+#define kMemoryCacheLimit 50
 
 @interface RMDatabaseCache ()
 
@@ -58,6 +63,12 @@
     NSUInteger _capacity;
     NSUInteger _minimalPurge;
     NSTimeInterval _expiryPeriod;
+    
+    // L4C : 2nd level memory cache - if writeLimit is reached
+    RMMemoryCache *_memoryCache;
+    
+    // L4C : Call PurgeTiles only one time
+    BOOL _purgeActive;
 }
 
 @synthesize databasePath = _databasePath;
@@ -135,6 +146,9 @@
 
     _tileCount = [self countTiles];
 
+    // L4C : 2nd level memory cache
+    _memoryCache = [[[RMMemoryCache alloc] initWithCapacity:kMemoryCacheLimit] retain];
+    
 	return self;	
 }
 
@@ -151,6 +165,10 @@
     [_writeQueueLock unlock];
     [_writeQueueLock release]; _writeQueueLock = nil;
     [_queue release]; _queue = nil;
+    
+    // L4C : 2nd level memory cache
+    [_memoryCache release]; _memoryCache = nil;
+    
 	[super dealloc];
 }
 
@@ -185,6 +203,18 @@
 {
 //	RMLog(@"DB cache check for tile %d %d %d", tile.x, tile.y, tile.zoom);
 
+    // L4C : Check if it´s in the memory cache first
+    if ( kMemoryCacheLimit > 0 ) {
+        UIImage *cachedImageMemory = [_memoryCache cachedImage:tile withCacheKey:aCacheKey];
+        if ( cachedImageMemory != nil ) {
+            if ([_writeQueue operationCount] < kWriteQueueLimit/2) {
+                // Store image in database if writeQuere is relaxed
+                [self addImage:cachedImageMemory forTile:tile withCacheKey:aCacheKey];
+            }
+            return cachedImageMemory;
+        }
+    }
+    
     __block UIImage *cachedImage = nil;
 
     [_writeQueueLock lock];
@@ -211,7 +241,7 @@
      }];
 
     [_writeQueueLock unlock];
-
+    
     if (_capacity != 0 && _purgeStrategy == RMCachePurgeStrategyLRU)
         [self touchTile:tile withKey:aCacheKey];
 
@@ -221,6 +251,8 @@
         {
             [_writeQueueLock lock];
 
+            NSLog(@"purgeDatabase _expiryPeriod");
+            
             [_queue inDatabase:^(FMDatabase *db)
              {
                  BOOL result = [db executeUpdate:@"DELETE FROM ZCACHE WHERE last_used < ?", [NSDate dateWithTimeIntervalSinceNow:-_expiryPeriod]];
@@ -251,7 +283,9 @@
     {
         NSUInteger tilesInDb = [self count];
 
-        if (_capacity <= tilesInDb && _expiryPeriod == 0)
+        // L4C : Start purge when more than 100 tiles above the limit
+        //if (_capacity <= tilesInDb && _expiryPeriod == 0)
+        if ( (_capacity+100) <= tilesInDb && _expiryPeriod == 0)
             [self purgeTiles:MAX(_minimalPurge, 1+tilesInDb-_capacity)];
 
 //        RMLog(@"DB cache     insert tile %d %d %d (%@)", tile.x, tile.y, tile.zoom, [RMTileCache tileHash:tile]);
@@ -263,8 +297,13 @@
 
         [_writeQueueLock lock];
 
-        if ([_writeQueue operationCount] > kWriteQueueLimit)
+        if ([_writeQueue operationCount] > kWriteQueueLimit) {
+            // L4C : WriteQuere full -> add to memoryCache
+            if ( kMemoryCacheLimit > 0 )
+                [_memoryCache addImage:image forTile:tile withCacheKey:aCacheKey];
+            
             skipThisTile = YES;
+        }
 
         [_writeQueueLock unlock];
 
@@ -325,6 +364,11 @@
 {
     RMLog(@"purging %u old tiles from the db cache", count);
 
+    // L4C : Check semaphore for pureTiles
+    if ( _purgeActive )
+        return;
+    _purgeActive = YES;
+
     [_writeQueueLock lock];
 
     [_queue inDatabase:^(FMDatabase *db)
@@ -340,6 +384,9 @@
     [_writeQueueLock unlock];
 
     _tileCount = [self countTiles];
+    
+    // L4C : Reset semaphore for pureTiles
+    _purgeActive = NO;
 }
 
 - (void)removeAllCachedImages 
