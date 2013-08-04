@@ -158,7 +158,6 @@
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[URLs objectAtIndex:0]];
             [request setTimeoutInterval:(self.requestTimeoutSeconds / (CGFloat)self.retryCount)];
             image = [UIImage imageWithData:[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil]];
-
             if (response.statusCode == HTTP_404_NOT_FOUND)
                 break;
         }

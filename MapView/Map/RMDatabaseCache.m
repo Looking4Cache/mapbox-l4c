@@ -33,7 +33,7 @@
 
 // L4C : higher Write Query
 //#define kWriteQueueLimit 15
-#define kWriteQueueLimit 100
+#define kWriteQueueLimit 50
 
 // L4C : Memory Cache limit (0 to disable)
 #define kMemoryCacheLimit 50
@@ -251,8 +251,6 @@
         {
             [_writeQueueLock lock];
 
-            NSLog(@"purgeDatabase _expiryPeriod");
-            
             [_queue inDatabase:^(FMDatabase *db)
              {
                  BOOL result = [db executeUpdate:@"DELETE FROM ZCACHE WHERE last_used < ?", [NSDate dateWithTimeIntervalSinceNow:-_expiryPeriod]];
@@ -290,6 +288,7 @@
 
 //        RMLog(@"DB cache     insert tile %d %d %d (%@)", tile.x, tile.y, tile.zoom, [RMTileCache tileHash:tile]);
 
+        
         // Don't add new images to the database while there are still more than kWriteQueueLimit
         // insert operations pending. This prevents some memory issues.
 
@@ -304,7 +303,7 @@
             
             skipThisTile = YES;
         }
-
+  
         [_writeQueueLock unlock];
 
         if (skipThisTile)

@@ -1,5 +1,5 @@
 //
-//  RMCustomMapViewSource.h
+//  RMExternalTileRenderer.h
 //
 // Copyright (c) 2008-2012, Route-Me Contributors
 // All rights reserved.
@@ -26,12 +26,11 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #import <Foundation/Foundation.h>
-#import "RMAbstractMercatorTileSource.h"
-#import "RMCustomMapView.h"
-#import "RMMapView.h"
 
-@interface RMCustomMapViewSource : RMAbstractMercatorTileSource <RMTileSource>
+@protocol RMExternalTileRenderer <NSObject>
 
-- (id)initWithMapView:(RMMapView *)mapView andCustomMapView:(UIView<RMCustomMapView> *)customMapView;
+- (UIImage *)renderImageForCoordiante:(CLLocationCoordinate2D)coordinate scale:(double)scale;
+
+@property (strong, nonatomic) NSString *uniqueTilecacheKey;
 
 @end

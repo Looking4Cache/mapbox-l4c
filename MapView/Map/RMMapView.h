@@ -40,6 +40,8 @@
 
 // L4C : CustomMapView einbinden
 #import "RMCustomMapView.h"
+// L4C : StaticOverlayControl einbinden
+#import "RMStaticOverlayControlView.h"
 
 #define kRMUserLocationAnnotationTypeName   @"RMUserLocationAnnotation"
 #define kRMTrackingHaloAnnotationTypeName   @"RMTrackingHaloAnnotation"
@@ -494,5 +496,8 @@ typedef enum : NSUInteger {
 
 /** L4C : Zusätzliche Custom-Map-View */
 @property (nonatomic, assign) UIView<RMCustomMapView> *customMapView;
+
+/** L4C : Zusätzliche Static-Overlay-Control--View */
+@property (nonatomic, assign) UIView<RMStaticOverlayControlView> *staticOverlayControlView;
 
 @end

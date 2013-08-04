@@ -1,5 +1,5 @@
 //
-//  RMCustomMapViewSource.h
+// RMOSMScoutSource.h
 //
 // Copyright (c) 2008-2012, Route-Me Contributors
 // All rights reserved.
@@ -25,13 +25,20 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#import <Foundation/Foundation.h>
 #import "RMAbstractMercatorTileSource.h"
-#import "RMCustomMapView.h"
 #import "RMMapView.h"
+#import "RMDatabaseCache.h"
+#import "RMExternalTileRenderer.h"
 
-@interface RMCustomMapViewSource : RMAbstractMercatorTileSource <RMTileSource>
+#define kTileSidePadding 25.0
 
-- (id)initWithMapView:(RMMapView *)mapView andCustomMapView:(UIView<RMCustomMapView> *)customMapView;
+@interface RMOSMScoutSource : RMAbstractMercatorTileSource
+{
+    dispatch_queue_t renderQueue;
+}
+
+@property (strong, nonatomic) NSObject<RMExternalTileRenderer> *externalRenderer;
+
+- (id)initWithRenderer:(id<RMExternalTileRenderer>)renderer;
 
 @end

@@ -214,7 +214,10 @@
 @synthesize showLogoBug = _showLogoBug;
 
 @synthesize overlayView = _overlayView;
+
+// L4C
 @synthesize customMapView = _customMapView;
+@synthesize staticOverlayControlView = _staticOverlayControlView;
 
 #pragma mark -
 #pragma mark Initialization
@@ -392,6 +395,10 @@
         // L4C : CustomMapView resizen
         if ( _customMapView != nil )
             _customMapView.frame = bounds;
+        
+        // L4C : Overlay-Controll-View resizen
+        //if ( _staticOverlayControlView != nil )
+        //    _staticOverlayControlView.frame = bounds;
 
         [self setCenterProjectedPoint:centerPoint animated:NO];
 
@@ -448,9 +455,10 @@
     [_attributionButton release]; _attributionButton = nil;
     [_logoBug release]; _logoBug = nil;
     
-    // L4C : CustomMapView verwerfen
+    // L4C : CustomMapView und OverlayControlView verwerfen
     [_customMapView release]; _customMapView = nil;
-
+    [_staticOverlayControlView release]; _staticOverlayControlView = nil;
+    
     [super dealloc];
 }
 
@@ -776,7 +784,7 @@
     normalizedProjectedPoint.x = (center.x * _metersPerPixel) - fabs(planetBounds.origin.x);
     normalizedProjectedPoint.y = (center.y * _metersPerPixel) - fabs(planetBounds.origin.y);
 
-//    RMLog(@"centerProjectedPoint: {%f,%f}", normalizedProjectedPoint.x, normalizedProjectedPoint.y);
+    //RMLog(@"centerProjectedPoint: {%f,%f}", normalizedProjectedPoint.x, normalizedProjectedPoint.y);
 
     return normalizedProjectedPoint;
 }
@@ -1215,6 +1223,10 @@
     if ( _customMapView != nil )
         [self insertSubview:_customMapView belowSubview:_overlayView];
 
+    // L4C : StaticOverlayControlView unter OverlayView
+    if ( _staticOverlayControlView != nil )
+        [self insertSubview:_staticOverlayControlView belowSubview:_overlayView];
+
     // add gesture recognizers
 
     // one finger taps
@@ -1315,6 +1327,13 @@
 
     if (_loadingTileView)
         _loadingTileView.mapZooming = NO;
+    
+    // L4C : OverlayControlView informieren
+    if ( _staticOverlayControlView != nil ) {
+        if ( [_staticOverlayControlView respondsToSelector:@selector(zoomEnd)] ) {
+            [_staticOverlayControlView zoomEnd];
+        }
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -1331,6 +1350,15 @@
 {
     BOOL wasUserAction = (scrollView.pinchGestureRecognizer.state == UIGestureRecognizerStateChanged);
 
+    // L4C : OverlayControlView informieren
+    if ( wasUserAction ) {
+        if ( _staticOverlayControlView != nil ) {
+            if ( [_staticOverlayControlView respondsToSelector:@selector(zoom)] ) {
+                [_staticOverlayControlView zoom];
+            }
+        }
+    }
+    
     [self registerZoomEventByUser:wasUserAction];
 
     if (self.userTrackingMode != RMUserTrackingModeNone && wasUserAction)
@@ -1478,12 +1506,19 @@
 
     if (_delegateHasMapViewRegionDidChange)
         [_delegate mapViewRegionDidChange:self];
-
+    
     // L4C : CustomMapSource informieren
     if ( _customMapView != nil ) {
         if ( [_customMapView respondsToSelector:@selector(mapViewRegionDidChange:)] ) {
             [_customMapView mapViewRegionDidChange:self];
         }
+    }
+    
+    // L4C : OverlayControlView informieren
+    if ( _staticOverlayControlView != nil ) {
+        if ( [_staticOverlayControlView respondsToSelector:@selector(mapMove:)] ) {
+            [_staticOverlayControlView mapMove:self];
+        }        
     }
 }
 
@@ -2598,6 +2633,13 @@
 
 - (void)correctPositionOfAllAnnotationsIncludingInvisibles:(BOOL)correctAllAnnotations animated:(BOOL)animated
 {
+    // L4C : OverlayControlView informieren
+    if ( _staticOverlayControlView != nil ) {
+        if ( [_staticOverlayControlView respondsToSelector:@selector(mapMoveEnd:)] ) {
+            [_staticOverlayControlView mapMoveEnd:self];
+        }
+    }
+    
     // Prevent blurry movements
     [CATransaction begin];
 
@@ -3334,7 +3376,14 @@
          
          _mapScrollView.transform = _mapTransform;
          _overlayView.transform   = _mapTransform;
-         
+         if ( _customMapView != nil ) _customMapView.transform = _mapTransform;
+
+         if ( _staticOverlayControlView != nil ) {
+             if ( [_staticOverlayControlView respondsToSelector:@selector(updateHeading:)] ) {
+                 [_staticOverlayControlView updateHeading:heading];
+             }
+         }
+
          for (RMAnnotation *annotation in _annotations)
              if ([annotation.layer isKindOfClass:[RMMarker class]] && ! annotation.isUserLocationAnnotation)
                  annotation.layer.transform = _annotationTransform;

@@ -31,6 +31,6 @@
 
 @protocol RMCustomMapView <NSObject>
 
-- (void)mapViewRegionDidChange:(RMMapView *)mapView;
+-(void)mapViewRegionDidChange:(RMMapView *)mapView;
 
 @end

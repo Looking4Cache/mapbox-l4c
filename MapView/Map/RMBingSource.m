@@ -81,7 +81,7 @@
         NSData *metadataData = [NSData dataWithContentsOfURL:metadataURL];
 
         id metadata = [NSJSONSerialization JSONObjectWithData:metadataData options:0 error:nil];
-
+        
         if (metadata && [metadata isKindOfClass:[NSDictionary class]] && [[metadata objectForKey:@"statusCode"] intValue] == 200)
         {
             NSDictionary *resources = [[[[(NSDictionary *)metadata objectForKey:@"resourceSets"] objectAtIndex:0] objectForKey:@"resources"] objectAtIndex:0];

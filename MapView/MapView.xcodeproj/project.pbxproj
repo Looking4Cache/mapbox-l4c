@@ -46,6 +46,10 @@
 		23A0AAEB0EB90AA6003A4521 /* RMFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A0AAEA0EB90AA6003A4521 /* RMFoundation.h */; };
 		25757F4F1291C8640083D504 /* RMCircle.h in Headers */ = {isa = PBXBuildFile; fileRef = 25757F4D1291C8640083D504 /* RMCircle.h */; };
 		25757F501291C8640083D504 /* RMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 25757F4E1291C8640083D504 /* RMCircle.m */; };
+		2D70C86D17AAA8F000C6E3FC /* RMOSMScoutSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D70C86B17AAA8F000C6E3FC /* RMOSMScoutSource.h */; };
+		2D70C86E17AAA8F000C6E3FC /* RMOSMScoutSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D70C86C17AAA8F000C6E3FC /* RMOSMScoutSource.m */; };
+		2D70C8FF17AAE6FD00C6E3FC /* RMExternalTileRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D70C8FE17AAE6FD00C6E3FC /* RMExternalTileRenderer.h */; };
+		2DC247F416D69CBF004CF148 /* LoadingTileZoom.png in Resources */ = {isa = PBXBuildFile; fileRef = DD932BAC165C287000D69D49 /* LoadingTileZoom.png */; };
 		2DFA792F1660B010004D2E07 /* RMCustomMapView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DFA79281660B00F004D2E07 /* RMCustomMapView.h */; };
 		2DFA79301660B010004D2E07 /* RMCustomMapViewSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DFA79291660B00F004D2E07 /* RMCustomMapViewSource.h */; };
 		2DFA79311660B010004D2E07 /* RMCustomMapViewSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFA792A1660B00F004D2E07 /* RMCustomMapViewSource.m */; };
@@ -53,6 +57,7 @@
 		2DFA79331660B010004D2E07 /* RMDBRMapsSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFA792C1660B00F004D2E07 /* RMDBRMapsSource.m */; };
 		2DFA79341660B010004D2E07 /* RMOpenCycleMapLandscapeSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DFA792D1660B00F004D2E07 /* RMOpenCycleMapLandscapeSource.h */; };
 		2DFA79351660B010004D2E07 /* RMOpenCycleMapLandscapeSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DFA792E1660B010004D2E07 /* RMOpenCycleMapLandscapeSource.m */; };
+		2DFDC2FF16E898D400BB4CEE /* RMStaticOverlayControlView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DFDC2FE16E898D400BB4CEE /* RMStaticOverlayControlView.h */; };
 		96492C400FA8AD3400EBA6D2 /* RMGlobalConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 96492C3F0FA8AD3400EBA6D2 /* RMGlobalConstants.h */; };
 		B1EB26C610B5D8E6009F8658 /* RMNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = B1EB26C510B5D8E6009F8658 /* RMNotifications.h */; };
 		B8474BA40EB40094006A0BC1 /* RMDatabaseCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B8474B980EB40094006A0BC1 /* RMDatabaseCache.h */; };
@@ -130,7 +135,6 @@
 		DD932BB7165C287000D69D49 /* HeadingAngleSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = DD932BA9165C287000D69D49 /* HeadingAngleSmall.png */; };
 		DD932BB8165C287000D69D49 /* HeadingAngleSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD932BAA165C287000D69D49 /* HeadingAngleSmall@2x.png */; };
 		DD932BB9165C287000D69D49 /* LoadingTile.png in Resources */ = {isa = PBXBuildFile; fileRef = DD932BAB165C287000D69D49 /* LoadingTile.png */; };
-		DD932BBA165C287000D69D49 /* LoadingTileZoom.png in Resources */ = {isa = PBXBuildFile; fileRef = DD932BAC165C287000D69D49 /* LoadingTileZoom.png */; };
 		DD932BBB165C287000D69D49 /* TrackingDotHalo.png in Resources */ = {isa = PBXBuildFile; fileRef = DD932BAD165C287000D69D49 /* TrackingDotHalo.png */; };
 		DD932BBC165C287000D69D49 /* TrackingDotHalo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD932BAE165C287000D69D49 /* TrackingDotHalo@2x.png */; };
 		DD932BBD165C287000D69D49 /* TrackingHeading.png in Resources */ = {isa = PBXBuildFile; fileRef = DD932BAF165C287000D69D49 /* TrackingHeading.png */; };
@@ -210,6 +214,9 @@
 		25757F4D1291C8640083D504 /* RMCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMCircle.h; sourceTree = "<group>"; };
 		25757F4E1291C8640083D504 /* RMCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMCircle.m; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2D70C86B17AAA8F000C6E3FC /* RMOSMScoutSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMOSMScoutSource.h; sourceTree = "<group>"; };
+		2D70C86C17AAA8F000C6E3FC /* RMOSMScoutSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMOSMScoutSource.m; sourceTree = "<group>"; };
+		2D70C8FE17AAE6FD00C6E3FC /* RMExternalTileRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMExternalTileRenderer.h; sourceTree = "<group>"; };
 		2DFA79281660B00F004D2E07 /* RMCustomMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMCustomMapView.h; sourceTree = "<group>"; };
 		2DFA79291660B00F004D2E07 /* RMCustomMapViewSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMCustomMapViewSource.h; sourceTree = "<group>"; };
 		2DFA792A1660B00F004D2E07 /* RMCustomMapViewSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMCustomMapViewSource.m; sourceTree = "<group>"; };
@@ -217,6 +224,7 @@
 		2DFA792C1660B00F004D2E07 /* RMDBRMapsSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMDBRMapsSource.m; sourceTree = "<group>"; };
 		2DFA792D1660B00F004D2E07 /* RMOpenCycleMapLandscapeSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMOpenCycleMapLandscapeSource.h; sourceTree = "<group>"; };
 		2DFA792E1660B010004D2E07 /* RMOpenCycleMapLandscapeSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMOpenCycleMapLandscapeSource.m; sourceTree = "<group>"; };
+		2DFDC2FE16E898D400BB4CEE /* RMStaticOverlayControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMStaticOverlayControlView.h; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MapView_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		96492C3F0FA8AD3400EBA6D2 /* RMGlobalConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMGlobalConstants.h; sourceTree = "<group>"; };
 		B1EB26C510B5D8E6009F8658 /* RMNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMNotifications.h; sourceTree = "<group>"; };
@@ -382,6 +390,9 @@
 				2DFA79281660B00F004D2E07 /* RMCustomMapView.h */,
 				2DFA79291660B00F004D2E07 /* RMCustomMapViewSource.h */,
 				2DFA792A1660B00F004D2E07 /* RMCustomMapViewSource.m */,
+				2D70C8FE17AAE6FD00C6E3FC /* RMExternalTileRenderer.h */,
+				2D70C86B17AAA8F000C6E3FC /* RMOSMScoutSource.h */,
+				2D70C86C17AAA8F000C6E3FC /* RMOSMScoutSource.m */,
 			);
 			name = "Map Sources";
 			sourceTree = "<group>";
@@ -535,6 +546,7 @@
 				12F2031E0EBB65E9003D7B6B /* RMMapViewDelegate.h */,
 				DD7C7E36164C894F0021CCA5 /* RMStaticMapView.h */,
 				DD7C7E37164C894F0021CCA5 /* RMStaticMapView.m */,
+				2DFDC2FE16E898D400BB4CEE /* RMStaticOverlayControlView.h */,
 				B83E64EB0E80E73F001663B6 /* Tile Sources */,
 				B83E64CF0E80E73F001663B6 /* Tile Cache */,
 				B86F26A80E8742ED007A3773 /* Annotation Layers */,
@@ -735,6 +747,9 @@
 				2DFA79301660B010004D2E07 /* RMCustomMapViewSource.h in Headers */,
 				2DFA79321660B010004D2E07 /* RMDBRMapsSource.h in Headers */,
 				2DFA79341660B010004D2E07 /* RMOpenCycleMapLandscapeSource.h in Headers */,
+				2DFDC2FF16E898D400BB4CEE /* RMStaticOverlayControlView.h in Headers */,
+				2D70C86D17AAA8F000C6E3FC /* RMOSMScoutSource.h in Headers */,
+				2D70C8FF17AAE6FD00C6E3FC /* RMExternalTileRenderer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -781,7 +796,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MapView" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -814,7 +829,6 @@
 				DD932BB7165C287000D69D49 /* HeadingAngleSmall.png in Resources */,
 				DD932BB8165C287000D69D49 /* HeadingAngleSmall@2x.png in Resources */,
 				DD932BB9165C287000D69D49 /* LoadingTile.png in Resources */,
-				DD932BBA165C287000D69D49 /* LoadingTileZoom.png in Resources */,
 				DD932BB5165C287000D69D49 /* TrackingDot.png in Resources */,
 				DD932BB6165C287000D69D49 /* TrackingDot@2x.png in Resources */,
 				DD932BBB165C287000D69D49 /* TrackingDotHalo.png in Resources */,
@@ -823,6 +837,7 @@
 				DD932BBE165C287000D69D49 /* TrackingHeading@2x.png in Resources */,
 				DD932BBF165C287000D69D49 /* TrackingLocation.png in Resources */,
 				DD932BC0165C287000D69D49 /* TrackingLocation@2x.png in Resources */,
+				2DC247F416D69CBF004CF148 /* LoadingTileZoom.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -891,6 +906,7 @@
 				2DFA79311660B010004D2E07 /* RMCustomMapViewSource.m in Sources */,
 				2DFA79331660B010004D2E07 /* RMDBRMapsSource.m in Sources */,
 				2DFA79351660B010004D2E07 /* RMOpenCycleMapLandscapeSource.m in Sources */,
+				2D70C86E17AAA8F000C6E3FC /* RMOSMScoutSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -916,7 +932,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -927,10 +947,14 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Map/GRMustache/lib\"",
 					"\"$(SRCROOT)/../Proj4\"",
+					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/Build/Products/Debug-iphoneos\"",
 				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = MapBox;
 				RUN_CLANG_STATIC_ANALYZER = NO;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -938,8 +962,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MapView_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = "NS_BLOCK_ASSERTIONS=1";
@@ -948,9 +976,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Map/GRMustache/lib\"",
 					"\"$(SRCROOT)/../Proj4\"",
+					"\"$(SRCROOT)/../../../../Library/Developer/Xcode/DerivedData/Build/Products/Debug-iphoneos\"",
 				);
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = MapBox;
+				VALID_ARCHS = "armv7 armv7s";
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -958,6 +990,10 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Don't Code Sign";
 				COPY_PHASE_STRIP = NO;
 				DEPLOYMENT_POSTPROCESSING = NO;
@@ -970,6 +1006,7 @@
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = (
@@ -989,6 +1026,10 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEPLOYMENT_POSTPROCESSING = NO;
@@ -1000,6 +1041,7 @@
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "";
