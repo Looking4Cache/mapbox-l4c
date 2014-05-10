@@ -169,7 +169,8 @@
 
     CLLocationManager *_locationManager;
 
-    RMAnnotation *_accuracyCircleAnnotation;
+    // L4C
+    //RMAnnotation *_accuracyCircleAnnotation;
     RMAnnotation *_trackingHaloAnnotation;
 
     UIImageView *_userLocationTrackingView;
@@ -447,7 +448,8 @@
     [_locationManager stopUpdatingHeading];
     [_locationManager release]; _locationManager = nil;
     [_userLocation release]; _userLocation = nil;
-    [_accuracyCircleAnnotation release]; _accuracyCircleAnnotation = nil;
+    // L4C
+    //[_accuracyCircleAnnotation release]; _accuracyCircleAnnotation = nil;
     [_trackingHaloAnnotation release]; _trackingHaloAnnotation = nil;
     [_userLocationTrackingView release]; _userLocationTrackingView = nil;
     [_userHeadingTrackingView release]; _userHeadingTrackingView = nil;
@@ -1028,8 +1030,9 @@
 
 - (void)zoomInToNextNativeZoomAt:(CGPoint)pivot animated:(BOOL)animated
 {
-    if (self.userTrackingMode != RMUserTrackingModeNone && ! CGPointEqualToPoint(pivot, [self coordinateToPixel:self.userLocation.location.coordinate]))
-        self.userTrackingMode = RMUserTrackingModeNone;
+    // L4C
+    //if (self.userTrackingMode != RMUserTrackingModeNone && ! CGPointEqualToPoint(pivot, [self coordinateToPixel:self.userLocation.location.coordinate]))
+    //    self.userTrackingMode = RMUserTrackingModeNone;
     
     // Calculate rounded zoom
     float newZoom = fmin(ceilf([self zoom]) + 1.0, [self maxZoom]);
@@ -1112,19 +1115,21 @@
 
         if ((myPoint.x / self.bounds.size.width) < (myPoint.y / self.bounds.size.height))
         {
-            if ((myPoint.y / self.bounds.size.height) > 1)
-            {
+            // L4C
+            //if ((myPoint.y / self.bounds.size.height) > 1)
+            //{
                 zoomRect.size.width = self.bounds.size.width * (myPoint.y / self.bounds.size.height);
                 zoomRect.size.height = self.bounds.size.height * (myPoint.y / self.bounds.size.height);
-            }
+            //}
         }
         else
         {
-            if ((myPoint.x / self.bounds.size.width) > 1)
-            {
+            // L4C
+            //if ((myPoint.x / self.bounds.size.width) > 1)
+            //{
                 zoomRect.size.width = self.bounds.size.width * (myPoint.x / self.bounds.size.width);
                 zoomRect.size.height = self.bounds.size.height * (myPoint.x / self.bounds.size.width);
-            }
+            //}
         }
 
         myOrigin.x = myOrigin.x - (zoomRect.size.width / 2);
@@ -2936,6 +2941,8 @@
                 [_annotations removeObject:annotation];
                 [_visibleAnnotations removeObject:annotation];
                 [self.quadTree removeAnnotation:annotation];
+                // L4C : Ansonsten bleiben Tracks stehen
+                [annotation.layer removeFromSuperlayer];
                 annotation.layer = nil;
             }
        }
@@ -3253,6 +3260,8 @@
         }
     }
 
+    // L4C
+    /*
     if ( ! _accuracyCircleAnnotation)
     {
         _accuracyCircleAnnotation = [[RMAnnotation annotationWithMapView:self coordinate:newLocation.coordinate andTitle:nil] retain];
@@ -3273,9 +3282,10 @@
 
     if ([newLocation distanceFromLocation:oldLocation])
         _accuracyCircleAnnotation.coordinate = newLocation.coordinate;
-
+    
     if (newLocation.horizontalAccuracy != oldLocation.horizontalAccuracy)
         ((RMCircle *)_accuracyCircleAnnotation.layer).radiusInMeters = newLocation.horizontalAccuracy;
+     */
 
     if ( ! _trackingHaloAnnotation)
     {
@@ -3329,7 +3339,8 @@
     if (_userLocationTrackingView)
         _userLocationTrackingView.hidden = ! CLLocationCoordinate2DIsValid(self.userLocation.coordinate);
 
-    _accuracyCircleAnnotation.layer.hidden = newLocation.horizontalAccuracy <= 10 || self.userLocation.hasCustomLayer;
+    // L4C
+    //_accuracyCircleAnnotation.layer.hidden = newLocation.horizontalAccuracy <= 10 || self.userLocation.hasCustomLayer;
 
     _trackingHaloAnnotation.layer.hidden = ( ! CLLocationCoordinate2DIsValid(self.userLocation.coordinate) || newLocation.horizontalAccuracy > 10 || self.userTrackingMode == RMUserTrackingModeFollowWithHeading || self.userLocation.hasCustomLayer);
 

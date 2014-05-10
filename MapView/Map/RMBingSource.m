@@ -80,6 +80,10 @@
 
         NSData *metadataData = [NSData dataWithContentsOfURL:metadataURL];
 
+        // L4C: Wenn nil -> Absturz
+        if ( !metadataData )
+            return nil;
+        
         id metadata = [NSJSONSerialization JSONObjectWithData:metadataData options:0 error:nil];
         
         if (metadata && [metadata isKindOfClass:[NSDictionary class]] && [[metadata objectForKey:@"statusCode"] intValue] == 200)
