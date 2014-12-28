@@ -36,7 +36,7 @@
 #define kWriteQueueLimit 50
 
 // L4C : Memory Cache limit (0 to disable)
-#define kMemoryCacheLimit 50
+#define kMemoryCacheLimit 20
 
 @interface RMDatabaseCache ()
 

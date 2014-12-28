@@ -166,6 +166,9 @@
 {
 //    RMLog(@"Memory cache insert tile %d %d %d (%@)", tile.x, tile.y, tile.zoom, [RMTileCache tileHash:tile]);
 
+    // L4C
+    if ( [aCacheKey containsString:@"LIBOSMSCOUT"] ) return;
+    
 	[self makeSpaceInCache];
 
     dispatch_barrier_async(_memoryCacheQueue, ^{
