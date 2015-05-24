@@ -22,12 +22,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-    //[_queue release]; _queue = nil;
-    [super dealloc];
-}
-
 - (UIImage *)imageForTile:(RMTile)tile inCache:(RMTileCache *)tileCache
 {
     __block UIImage *image = nil;
@@ -37,7 +31,6 @@
     image = [tileCache cachedImage:tile withCacheKey:[self uniqueTilecacheKey]];
     if ( image )
         return image;
-    [tileCache retain];
     
     // Coordinate (Mitte des Tile) berechnen
     RMProjectedRect planetBounds = self.projection.planetBounds;
@@ -59,7 +52,6 @@
     // Cachen
     if ( image )
         [tileCache addImage:image forTile:tile withCacheKey:[self uniqueTilecacheKey]];
-    [tileCache release];
     
 	return image;
 }

@@ -143,7 +143,7 @@
     _tileCount = [self countTiles];
 
     // L4C : 2nd level memory cache
-    _memoryCache = [[[RMMemoryCache alloc] initWithCapacity:kMemoryCacheLimit] retain];
+    _memoryCache = [[RMMemoryCache alloc] initWithCapacity:kMemoryCacheLimit];
     
 	return self;	
 }
@@ -160,9 +160,6 @@
     [_writeQueueLock unlock];
     _writeQueueLock = nil;
     _queue = nil;
-    
-    // L4C : 2nd level memory cache
-    [_memoryCache release]; _memoryCache = nil;
 }
 
 - (void)setPurgeStrategy:(RMCachePurgeStrategy)theStrategy
@@ -297,13 +294,15 @@
 
         [_writeQueueLock lock];
 
+        // TODO64 - Wird das noch gebraucht?
+        /*
         if ([_writeQueue operationCount] > kWriteQueueLimit) {
             // L4C : WriteQuere full -> add to memoryCache
             if ( kMemoryCacheLimit > 0 )
                 [_memoryCache addImage:image forTile:tile withCacheKey:aCacheKey];
             
             skipThisTile = YES;
-        }
+        }*/
   
         [_writeQueueLock unlock];
 

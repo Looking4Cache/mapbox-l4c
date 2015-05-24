@@ -189,7 +189,8 @@
     CLLocationManager *_locationManager;
 
     // L4C
-    //RMAnnotation *_accuracyCircleAnnotation;
+    // TODO64 - ggf. rausschmeißen
+    RMAnnotation *_accuracyCircleAnnotation;
     RMAnnotation *_trackingHaloAnnotation;
 
     UIImageView *_userHeadingTrackingView;
@@ -489,13 +490,6 @@
     _locationManager.delegate = nil;
     [_locationManager stopUpdatingLocation];
     [_locationManager stopUpdatingHeading];
-    
-    // L4C
-    //[_accuracyCircleAnnotation release]; _accuracyCircleAnnotation = nil;
-    
-    // L4C : CustomMapView und OverlayControlView verwerfen
-    [_customMapView release]; _customMapView = nil;
-    [_staticOverlayControlView release]; _staticOverlayControlView = nil;
 }
 
 - (void)didReceiveMemoryWarning

@@ -62,11 +62,6 @@
     // no-op
 }
 
-- (void)dealloc
-{
-	[super dealloc];
-}
-
 - (NSUInteger)tileSideLength
 {
     return 256;
@@ -108,7 +103,7 @@
                                                                       minZoom:self.minZoom];
     }
     
-    return [[_tileProjection retain] autorelease];
+    return _tileProjection;
 }
 
 - (RMProjection *)projection
