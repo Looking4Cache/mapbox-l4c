@@ -1,7 +1,7 @@
 //
 //  RMProjection.m
 //
-// Copyright (c) 2008-2012, Route-Me Contributors
+// Copyright (c) 2008-2013, Route-Me Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,7 @@
 static RMProjection *_googleProjection = nil;
 static RMProjection *_latitudeLongitudeProjection = nil;
 
-+ (RMProjection *)googleProjection
++ (instancetype)googleProjection
 {
     if (_googleProjection)
     {
@@ -66,7 +66,7 @@ static RMProjection *_latitudeLongitudeProjection = nil;
     }
 }
 
-+ (RMProjection *)EPSGLatLong
++ (instancetype)EPSGLatLong
 {
     if (_latitudeLongitudeProjection)
     {
@@ -94,7 +94,6 @@ static RMProjection *_latitudeLongitudeProjection = nil;
     if (_internalProjection == NULL)
     {
         RMLog(@"Unhandled error creating projection. String is %@", proj4String);
-        [self release];
         return nil;
     }
 
@@ -121,8 +120,6 @@ static RMProjection *_latitudeLongitudeProjection = nil;
 {
     if (_internalProjection)
         pj_free(_internalProjection);
-
-    [super dealloc];
 }
 
 - (RMProjectedPoint)wrapPointHorizontally:(RMProjectedPoint)aPoint

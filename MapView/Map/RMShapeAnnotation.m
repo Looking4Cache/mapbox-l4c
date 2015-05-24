@@ -28,6 +28,8 @@
 
 #import "RMShapeAnnotation.h"
 
+#import "RMShape.h"
+
 @implementation RMShapeAnnotation
 
 @synthesize points=_points;
@@ -49,10 +51,34 @@
     return self;
 }
 
-- (void)dealloc
+- (void)setLineColor:(UIColor *)lineColor
 {
-    [_points release]; _points = nil;
-    [super dealloc];
+    [(RMShape *)[self layer] setLineColor:lineColor];
+}
+
+- (UIColor *)lineColor
+{
+    return ((RMShape *)[self layer]).lineColor;
+}
+
+- (void)setLineWidth:(CGFloat)lineWidth
+{
+    [(RMShape *)[self layer] setLineWidth:lineWidth];
+}
+
+- (CGFloat)lineWidth
+{
+    return ((RMShape *)[self layer]).lineWidth;
+}
+
+- (void)setFillColor:(UIColor *)lineColor
+{
+    [(RMShape *)[self layer] setFillColor:lineColor];
+}
+
+- (UIColor *)fillColor
+{
+    return ((RMShape *)[self layer]).fillColor;
 }
 
 @end

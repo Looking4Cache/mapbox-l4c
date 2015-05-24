@@ -1,7 +1,7 @@
 //
 //  RMShape.h
 //
-// Copyright (c) 2008-2012, Route-Me Contributors
+// Copyright (c) 2008-2013, Route-Me Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@
     float lineWidth;
 
     // Line dash style
-    NSArray *lineDashLengths;
+    __weak NSArray *lineDashLengths;
     CGFloat lineDashPhase;
 
     BOOL scaleLineWidth;
@@ -56,17 +56,20 @@
 
 /** @name Accessing the Drawing Properties */
 
-@property (nonatomic, retain) NSString *fillRule;
-@property (nonatomic, retain) NSString *lineCap;
-@property (nonatomic, retain) NSString *lineJoin;
+@property (nonatomic, strong) NSString *fillRule;
+@property (nonatomic, strong) NSString *lineCap;
+@property (nonatomic, strong) NSString *lineJoin;
 
 /** The line color of the shape. Defaults to black. */
-@property (nonatomic, retain) UIColor *lineColor;
+@property (nonatomic, strong) UIColor *lineColor;
 
 /** The fill color of the shape. Defaults to clear. */
-@property (nonatomic, retain) UIColor *fillColor;
+@property (nonatomic, strong) UIColor *fillColor;
 
-@property (nonatomic, assign) NSArray *lineDashLengths;
+/** The fill pattern image of the shape. If set, the fillColor is set to `nil`. */
+@property (nonatomic, strong) UIImage *fillPatternImage;
+
+@property (nonatomic, weak) NSArray *lineDashLengths;
 @property (nonatomic, assign) CGFloat lineDashPhase;
 @property (nonatomic, assign) BOOL scaleLineDash;
 
@@ -80,6 +83,9 @@
 
 /** The bounding box of the shape in the current viewport. */
 @property (nonatomic, readonly) CGRect pathBoundingBox;
+
+/** An additional pixel area around the shape that is applied to touch hit testing events. Defaults to none. */
+@property (nonatomic, assign) CGFloat additionalTouchPadding;
 
 /** @name Drawing Shapes */
 
@@ -106,6 +112,28 @@
 /** Draw a line from the current pen location to a coordinate.
 *   @param coordinate The coordinate to draw to. */
 - (void)addLineToCoordinate:(CLLocationCoordinate2D)coordinate;
+
+/** Draw a curve from the current pen location to a coordinate.
+*   @param coordinate The coordinate to draw to.
+*   @param controlCoordinate1 The first control coordinate.
+*   @param controlCoordinate2 The second control coordinate. */
+- (void)addCurveToCoordinate:(CLLocationCoordinate2D)coordinate controlCoordinate1:(CLLocationCoordinate2D)controlCoordinate1 controlCoordinate2:(CLLocationCoordinate2D)controlCoordinate2;
+
+/** Draw a quad curve from the current pen location to a coordinate.
+*   @param coordinate The coordinate to draw to.
+*   @param controlCoordinate The control coordinate. */
+- (void)addQuadCurveToCoordinate:(CLLocationCoordinate2D)coordinate controlCoordinate:(CLLocationCoordinate2D)controlCoordinate;
+
+/** Draw a curve from the current pen location to a projected point.
+*   @param projectedPoint The projected point to draw to.
+*   @param controlProjectedPoint1 The first control projected point.
+*   @param controlProjectedPoint2 The second control projected point. */
+- (void)addCurveToProjectedPoint:(RMProjectedPoint)projectedPoint controlProjectedPoint1:(RMProjectedPoint)controlProjectedPoint1 controlProjectedPoint2:(RMProjectedPoint)controlProjectedPoint2;
+
+/** Draw a quad curve from the current pen location to a projected point.
+*   @param projectedPoint The projected point to draw to.
+*   @param controlProjectedPoint The control projected point. */
+- (void)addQuadCurveToProjectedPoint:(RMProjectedPoint)projectedPoint controlProjectedPoint:(RMProjectedPoint)controlProjectedPoint;
 
 /** Alter the path without rerecalculating the geometry. Recommended for many operations in order to increase performance. 
 *   @param block A block containing the operations to perform. */

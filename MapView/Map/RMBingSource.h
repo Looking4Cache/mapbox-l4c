@@ -1,7 +1,7 @@
 //
 //  RMBingSource.h
 //
-// Copyright (c) 2008-2012, Route-Me Contributors
+// Copyright (c) 2008-2013, Route-Me Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,7 +27,7 @@
 
 #import "RMAbstractWebMapSource.h"
 
-typedef enum NSUInteger {
+typedef enum : NSUInteger {
     RMBingImagerySetRoad             = 0, // default
     RMBingImagerySetAerial           = 1,
     RMBingImagerySetAerialWithLabels = 2,

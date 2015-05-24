@@ -40,6 +40,15 @@
 - (id)initWithMapView:(RMMapView *)aMapView points:(NSArray *)points;
 
 /** The array of points associated with the shape. (read-only) */
-@property (nonatomic, readonly, retain) NSArray *points;
+@property (nonatomic, readonly, strong) NSArray *points;
+
+/** A line color for the annotation's shape. */
+@property (nonatomic, strong) UIColor *lineColor;
+
+/** A line width for the annotation's shape. */
+@property (nonatomic, assign) CGFloat lineWidth;
+
+/** A fill color for the annotation's shape. */
+@property (nonatomic, strong) UIColor *fillColor;
 
 @end

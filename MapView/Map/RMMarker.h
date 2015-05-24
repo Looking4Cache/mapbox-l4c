@@ -1,7 +1,7 @@
 //
 //  RMMarker.h
 //
-// Copyright (c) 2008-2012, Route-Me Contributors
+// Copyright (c) 2008-2013, Route-Me Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,13 +29,11 @@
 #import "RMMapLayer.h"
 #import "RMFoundation.h"
 
-@class RMMarkerStyle;
-
-typedef enum {
-    RMMarkerMapBoxImageSizeSmall,
-    RMMarkerMapBoxImageSizeMedium,
-    RMMarkerMapBoxImageSizeLarge
-} RMMarkerMapBoxImageSize;
+typedef enum : NSUInteger {
+    RMMarkerMapboxImageSizeSmall,
+    RMMarkerMapboxImageSizeMedium,
+    RMMarkerMapboxImageSizeLarge
+} RMMarkerMapboxImageSize;
 
 /** An RMMarker object is used for simple point annotations on a map view, represented as a single image. RMMarker objects do not change in size when the map view zooms in or out, but instead stay the same size to consistently represent a point on the map view. */
 @interface RMMarker : RMMapLayer
@@ -49,13 +47,13 @@ typedef enum {
 /** @name Setting Label Properties */
 
 /** A custom label for the marker. The label is shown when first set. */
-@property (nonatomic, retain) UIView  *label;
+@property (nonatomic, strong) UIView  *label;
 
-/** The marker object's label text foreground color. */
-@property (nonatomic, retain) UIColor *textForegroundColor;
+/** The marker object's label text foreground color. Defaults to black. */
+@property (nonatomic, strong) UIColor *textForegroundColor;
 
-/** The marker object's label text background color. */
-@property (nonatomic, retain) UIColor *textBackgroundColor;
+/** The marker object's label text background color. Defaults to clear. */
+@property (nonatomic, strong) UIColor *textBackgroundColor;
 
 /** The font used for labels when another font is not explicitly requested. The default is the system font with size `15`. */
 + (UIFont *)defaultFont;
@@ -72,41 +70,44 @@ typedef enum {
 *   @return An initialized marker object. */
 - (id)initWithUIImage:(UIImage *)image anchorPoint:(CGPoint)anchorPoint;
 
-/** @name Creating Markers Using MapBox Images */
+/** @name Creating Markers Using Mapbox Images */
 
 /** Initializes and returns a newly allocated marker object using a red, medium-sized star pin image. */
-- (id)initWithMapBoxMarkerImage;
+- (id)initWithMapboxMarkerImage;
 
 /** Initializes and returns a newly allocated marker object using a red, medium-sized pin image and a given symbol name, e.g., `bus`.
-*   @param symbolName A symbol name from the [Maki](http://mapbox.com/maki/) icon set.
+*   @param symbolName A symbol name from the [Maki](https://mapbox.com/maki/) icon set.
 *   @return An initialized RMMarker layer. */
-- (id)initWithMapBoxMarkerImage:(NSString *)symbolName;
+- (id)initWithMapboxMarkerImage:(NSString *)symbolName;
 
-/** Initializes and returns a newly allocated marker object using a medium-sized pin image, a given symbol name, e.g., `bus`, and a given color. 
-*   @param symbolName A symbol name from the [Maki](http://mapbox.com/maki/) icon set.
+/** Initializes and returns a newly allocated marker object using a medium-sized pin image, a given symbol name, e.g., `bus`, and a given color.
+*   @param symbolName A symbol name from the [Maki](https://mapbox.com/maki/) icon set.
 *   @param color A color for the marker.
 *   @return An initialized RMMarker layer. */
-- (id)initWithMapBoxMarkerImage:(NSString *)symbolName tintColor:(UIColor *)color;
+- (id)initWithMapboxMarkerImage:(NSString *)symbolName tintColor:(UIColor *)color;
 
 /** Initializes and returns a newly allocated marker object using a pin image, a given symbol name, e.g., `bus`, a given color, and a given size. 
-*   @param symbolName A symbol name from the [Maki](http://mapbox.com/maki/) icon set.
+*   @param symbolName A symbol name from the [Maki](https://mapbox.com/maki/) icon set.
 *   @param color A color for the marker.
 *   @param size A size for the marker.
 *   @return An initialized RMMarker layer. */
-- (id)initWithMapBoxMarkerImage:(NSString *)symbolName tintColor:(UIColor *)color size:(RMMarkerMapBoxImageSize)size;
+- (id)initWithMapboxMarkerImage:(NSString *)symbolName tintColor:(UIColor *)color size:(RMMarkerMapboxImageSize)size;
 
 /** Initializes and returns a newly allocated marker object using a medium-sized pin image, a given symbol name, e.g., `bus`, and a given HTML hex color, e.g., `ff0000`.
-*   @param symbolName A symbol name from the [Maki](http://mapbox.com/maki/) icon set.
+*   @param symbolName A symbol name from the [Maki](https://mapbox.com/maki/) icon set.
 *   @param colorHex A color for the marker specified as an HTML hex code.
 *   @return An initialized RMMarker layer. */
-- (id)initWithMapBoxMarkerImage:(NSString *)symbolName tintColorHex:(NSString *)colorHex;
+- (id)initWithMapboxMarkerImage:(NSString *)symbolName tintColorHex:(NSString *)colorHex;
 
 /** Initializes and returns a newly allocated marker object using a pin image, a given symbol name, e.g., `bus`, a given HTML hex color, e.g., `ff0000`, and a given size, e.g., `large`.
-*   @param symbolName A symbol name from the [Maki](http://mapbox.com/maki/) icon set.
+*   @param symbolName A symbol name from the [Maki](https://mapbox.com/maki/) icon set.
 *   @param colorHex A color for the marker specified as an HTML hex code.
 *   @param sizeString A size such as `small`, `medium`, or `large`.
 *   @return An initialized RMMarker layer. */
- - (id)initWithMapBoxMarkerImage:(NSString *)symbolName tintColorHex:(NSString *)colorHex sizeString:(NSString *)sizeString;
+- (id)initWithMapboxMarkerImage:(NSString *)symbolName tintColorHex:(NSString *)colorHex sizeString:(NSString *)sizeString;
+
+/** Clears the local cache of Mapbox Marker images. Images are cached locally upon first use so that if the application goes offline, markers can still be used. */
++ (void)clearCachedMapboxMarkers;
 
 /** @name Altering Labels */
 

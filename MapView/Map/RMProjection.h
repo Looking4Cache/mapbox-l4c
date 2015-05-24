@@ -1,7 +1,7 @@
 //
 //  RMProjection.h
 //
-// Copyright (c) 2008-2012, Route-Me Contributors
+// Copyright (c) 2008-2013, Route-Me Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -43,8 +43,8 @@
 // applies #wrapPointHorizontally to aPoint, and then clamps northing (Y coordinate) to projection's planetBounds
 - (RMProjectedPoint)constrainPointToBounds:(RMProjectedPoint)aPoint;
 
-+ (RMProjection *)googleProjection;
-+ (RMProjection *)EPSGLatLong;
++ (instancetype)googleProjection;
++ (instancetype)EPSGLatLong;
 
 - (id)initWithString:(NSString *)proj4String inBounds:(RMProjectedRect)projectedBounds;
 

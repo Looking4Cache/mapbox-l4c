@@ -1,7 +1,7 @@
 //
 // RMAbstractWebMapSource.m
 //
-// Copyright (c) 2008-2012, Route-Me Contributors
+// Copyright (c) 2008-2013, Route-Me Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -26,7 +26,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #import "RMAbstractWebMapSource.h"
+
 #import "RMTileCache.h"
+#import "RMConfiguration.h"
 
 #define HTTP_404_NOT_FOUND 404
 
@@ -81,11 +83,13 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:RMTileRequested object:[NSNumber numberWithUnsignedLongLong:RMTileKey(tile)]];
     });
 
-    [tileCache retain];
-
     NSArray *URLs = [self URLsForTile:tile];
 
-    if ([URLs count] > 1)
+    if ([URLs count] == 0)
+    {
+        return nil;
+    }
+    else if ([URLs count] > 1)
     {
         // fill up collection array with placeholders
         //
@@ -107,8 +111,9 @@
                 for (NSUInteger try = 0; tileData == nil && try < self.retryCount; ++try)
                 {
                     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:currentURL];
+                    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
                     [request setTimeoutInterval:(self.requestTimeoutSeconds / (CGFloat)self.retryCount)];
-                    tileData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+                    tileData = [NSURLConnection sendBrandedSynchronousRequest:request returningResponse:nil error:nil];
                 }
 
                 if (tileData)
@@ -126,7 +131,9 @@
         // wait for whole group of fetches (with retries) to finish, then clean up
         //
         dispatch_group_wait(fetchGroup, dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * self.requestTimeoutSeconds));
+#if ! OS_OBJECT_USE_OBJC
         dispatch_release(fetchGroup);
+#endif
 
         // composite the collected images together
         //
@@ -154,24 +161,21 @@
     {
         // L4C: URLs kann bei Bing auch 0 sein
         if ([URLs count] != 0) {
-            
             for (NSUInteger try = 0; image == nil && try < self.retryCount; ++try)
             {
                 NSHTTPURLResponse *response = nil;
                 NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[URLs objectAtIndex:0]];
+                [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
                 [request setTimeoutInterval:(self.requestTimeoutSeconds / (CGFloat)self.retryCount)];
-                image = [UIImage imageWithData:[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil]];
+                image = [UIImage imageWithData:[NSURLConnection sendBrandedSynchronousRequest:request returningResponse:&response error:nil]];
+                
                 if (response.statusCode == HTTP_404_NOT_FOUND)
                     break;
             }
-            
         }
-    }
 
     if (image && self.isCacheable)
         [tileCache addImage:image forTile:tile withCacheKey:[self uniqueTilecacheKey]];
-
-    [tileCache release];
 
     dispatch_async(dispatch_get_main_queue(), ^(void)
     {

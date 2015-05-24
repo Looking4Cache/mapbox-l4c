@@ -1,7 +1,7 @@
 //
 //  RMBingSource.m
 //
-// Copyright (c) 2008-2012, Route-Me Contributors
+// Copyright (c) 2008-2013, Route-Me Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -27,10 +27,13 @@
 
 #import "RMBingSource.h"
 
+#import "RMConfiguration.h"
+
 @implementation RMBingSource
 {
     NSString *_mapsKey;
     NSString *_imageURLString;
+    NSString *_uniqueTilecacheKey;
     RMBingImagerySet _imagerySet;
 }
 
@@ -43,9 +46,11 @@
 {
     if (self = [super init])
     {
-        _mapsKey = [mapsKey retain];
+        _mapsKey = mapsKey;
 
         _imagerySet = imagerySet;
+
+        _uniqueTilecacheKey = [NSString stringWithFormat:@"Bing%lu", (unsigned long)_imagerySet];
 
         self.minZoom = 1;
         self.maxZoom = 21;
@@ -56,18 +61,11 @@
     return nil;
 }
 
-- (void)dealloc
-{
-    [_mapsKey release]; _mapsKey = nil;
-    [_imageURLString release]; _imageURLString = nil;
-    [super dealloc];
-}
-
 - (NSURL *)URLForTile:(RMTile)tile
 {
     if ( ! _imageURLString)
     {
-        NSString *imagerySetString;
+        NSString *imagerySetString = nil;
 
         if (_imagerySet == RMBingImagerySetAerial)
             imagerySetString = @"Aerial";
@@ -78,14 +76,17 @@
 
         NSURL *metadataURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://dev.virtualearth.net/REST/v1/Imagery/Metadata/%@?key=%@", imagerySetString, _mapsKey]];
 
-        NSData *metadataData = [NSData dataWithContentsOfURL:metadataURL];
+        NSData *metadataData = [NSData brandedDataWithContentsOfURL:metadataURL];
+
+        if ( ! metadataData)
+            return nil;
 
         // L4C: Wenn nil -> Absturz
         if ( !metadataData )
             return nil;
         
-        id metadata = [NSJSONSerialization JSONObjectWithData:metadataData options:0 error:nil];
-        
+        id metadata = [NSJSONSerialization JSONObjectWithData:metadataData options:0 error:NULL];
+
         if (metadata && [metadata isKindOfClass:[NSDictionary class]] && [[metadata objectForKey:@"statusCode"] intValue] == 200)
         {
             NSDictionary *resources = [[[[(NSDictionary *)metadata objectForKey:@"resourceSets"] objectAtIndex:0] objectForKey:@"resources"] objectAtIndex:0];
@@ -129,7 +130,7 @@
 
 - (NSString *)uniqueTilecacheKey
 {
-	return [NSString stringWithFormat:@"Bing%i", _imagerySet];
+	return _uniqueTilecacheKey;
 }
 
 - (NSString *)shortName
@@ -144,12 +145,12 @@
 
 - (NSString *)shortAttribution
 {
-	return @"Copyright © 2012 Microsoft";
+	return @"Copyright © 2013 Microsoft";
 }
 
 - (NSString *)longAttribution
 {
-	return @"Copyright © 2012 Microsoft and its suppliers. All rights reserved. This API cannot be accessed and the content and any results may not be used, reproduced or transmitted in any manner without express written permission from Microsoft Corporation.";
+	return @"Copyright © 2013 Microsoft and its suppliers. All rights reserved. This API cannot be accessed and the content and any results may not be used, reproduced or transmitted in any manner without express written permission from Microsoft Corporation.";
 }
 
 @end

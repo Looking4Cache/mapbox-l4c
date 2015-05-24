@@ -1,7 +1,7 @@
 //
 //  RMTileCacheDownloadOperation.m
 //
-// Copyright (c) 2008-2012, Route-Me Contributors
+// Copyright (c) 2008-2013, Route-Me Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -26,12 +26,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 #import "RMTileCacheDownloadOperation.h"
+#import "RMAbstractWebMapSource.h"
+#import "RMConfiguration.h"
 
 @implementation RMTileCacheDownloadOperation
 {
     RMTile _tile;
-    id <RMTileSource>_source;
-    RMTileCache *_cache;
+    __weak id <RMTileSource>_source;
+    __weak RMTileCache *_cache;
 }
 
 - (id)initWithTile:(RMTile)tile forTileSource:(id <RMTileSource>)source usingCache:(RMTileCache *)cache
@@ -39,9 +41,11 @@
     if (!(self = [super init]))
         return nil;
 
+    NSAssert([source isKindOfClass:[RMAbstractWebMapSource class]], @"only web-based tile sources are supported for downloading");
+
     _tile   = tile;
-    _source = [source retain];
-    _cache  = [cache retain];
+    _source = source;
+    _cache  = cache;
 
     return self;
 }
@@ -54,21 +58,39 @@
     if ([self isCancelled])
         return;
 
-    if ( ! [_cache cachedImage:_tile withCacheKey:[_source uniqueTilecacheKey]])
+    if ( ! [_cache cachedImage:_tile withCacheKey:[_source uniqueTilecacheKey] bypassingMemoryCache:YES])
     {
         if ([self isCancelled])
             return;
 
-        if ( ! [_source imageForTile:_tile inCache:_cache])
-            [self cancel];
-    }
-}
+        NSURL *tileURL = [(RMAbstractWebMapSource *)_source URLForTile:_tile];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:tileURL];
+        request.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+        NSError *error = nil;
+        NSData *data = [NSURLConnection sendBrandedSynchronousRequest:request
+                                                    returningResponse:nil
+                                                                error:&error];
 
-- (void)dealloc
-{
-    [_source release]; _source = nil;
-    [_cache release]; _cache = nil;
-    [super dealloc];
+        if ( ! data || error != nil)
+        {
+            if (error != nil)
+            {
+                self.error = error;
+            }
+            else
+            {
+                self.error = [NSError errorWithDomain:NSURLErrorDomain
+                                                 code:NSURLErrorUnknown
+                                             userInfo:nil];
+            }
+
+            [self cancel];
+        }
+        else
+        {
+            [_cache addDiskCachedImageData:data forTile:_tile withCacheKey:[_source uniqueTilecacheKey]];
+        }
+    }
 }
 
 @end

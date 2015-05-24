@@ -1,7 +1,7 @@
 ///
 //  RMShape.m
 //
-// Copyright (c) 2008-2012, Route-Me Contributors
+// Copyright (c) 2008-2013, Route-Me Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,7 @@
 
     NSMutableArray *points;
 
-    RMMapView *mapView;
+    __weak RMMapView *mapView;
 }
 
 @synthesize scaleLineWidth;
@@ -85,26 +85,17 @@
     previousBounds = CGRectZero;
     lastScale = 0.0;
 
-    self.masksToBounds = YES;
+    self.masksToBounds = NO;
 
     scaleLineWidth = NO;
     scaleLineDash = NO;
     isFirstPoint = YES;
 
-    points = [[NSMutableArray array] retain];
+    points = [NSMutableArray array];
 
     [(id)self setValue:[[UIScreen mainScreen] valueForKey:@"scale"] forKey:@"contentsScale"];
 
     return self;
-}
-
-- (void)dealloc
-{
-    mapView = nil;
-    [bezierPath release]; bezierPath = nil;
-    [shapeLayer release]; shapeLayer = nil;
-    [points release]; points = nil;
-    [super dealloc];
 }
 
 - (id <CAAction>)actionForKey:(NSString *)key
@@ -131,6 +122,9 @@
         scaledLineWidth = lineWidth;
 
     shapeLayer.lineWidth = scaledLineWidth;
+
+    if (self.fillPatternImage)
+        shapeLayer.fillColor = [[UIColor colorWithPatternImage:self.fillPatternImage] CGColor];
 
     if (lineDashLengths)
     {
@@ -178,8 +172,6 @@
         // calculate the bounds of the scaled path
         CGRect boundsInMercators = scaledPath.bounds;
         nonClippedBounds = CGRectInset(boundsInMercators, -scaledLineWidth - (2 * shapeLayer.shadowRadius), -scaledLineWidth - (2 * shapeLayer.shadowRadius));
-
-        [scaledPath release];
     }
 
     // if the path is not scaled, nonClippedBounds stay the same as in the previous invokation
@@ -187,7 +179,7 @@
     // Clip bound rect to screen bounds.
     // If bounds are not clipped, they won't display when you zoom in too much.
 
-    CGRect screenBounds = [mapView frame];
+    CGRect screenBounds = [mapView bounds];
 
     // we start with the non-clipped bounds and clip them
     CGRect clippedBounds = nonClippedBounds;
@@ -288,9 +280,10 @@
 
 #pragma mark -
 
-- (void)addPointToProjectedPoint:(RMProjectedPoint)point withDrawing:(BOOL)isDrawing
+
+- (void)addCurveToProjectedPoint:(RMProjectedPoint)point controlPoint1:(RMProjectedPoint)controlPoint1 controlPoint2:(RMProjectedPoint)controlPoint2 withDrawing:(BOOL)isDrawing
 {
-    [points addObject:[[[CLLocation alloc] initWithLatitude:[mapView projectedPointToCoordinate:point].latitude longitude:[mapView projectedPointToCoordinate:point].longitude] autorelease]];
+    [points addObject:[[CLLocation alloc] initWithLatitude:[mapView projectedPointToCoordinate:point].latitude longitude:[mapView projectedPointToCoordinate:point].longitude]];
 
     if (isFirstPoint)
     {
@@ -307,9 +300,35 @@
         point.y = point.y - projectedLocation.y;
 
         if (isDrawing)
-            [bezierPath addLineToPoint:CGPointMake(point.x, -point.y)];
+        {
+            if (controlPoint1.x == (double)INFINITY && controlPoint2.x == (double)INFINITY)
+            {
+                [bezierPath addLineToPoint:CGPointMake(point.x, -point.y)];
+            }
+            else if (controlPoint2.x == (double)INFINITY)
+            {
+                controlPoint1.x = controlPoint1.x - projectedLocation.x;
+                controlPoint1.y = controlPoint1.y - projectedLocation.y;
+
+                [bezierPath addQuadCurveToPoint:CGPointMake(point.x, -point.y)
+                                   controlPoint:CGPointMake(controlPoint1.x, -controlPoint1.y)];
+            }
+            else
+            {
+                controlPoint1.x = controlPoint1.x - projectedLocation.x;
+                controlPoint1.y = controlPoint1.y - projectedLocation.y;
+                controlPoint2.x = controlPoint2.x - projectedLocation.x;
+                controlPoint2.y = controlPoint2.y - projectedLocation.y;
+
+                [bezierPath addCurveToPoint:CGPointMake(point.x, -point.y)
+                              controlPoint1:CGPointMake(controlPoint1.x, -controlPoint1.y)
+                              controlPoint2:CGPointMake(controlPoint2.x, -controlPoint2.y)];
+            }
+        }
         else
+        {
             [bezierPath moveToPoint:CGPointMake(point.x, -point.y)];
+        }
 
         lastScale = 0.0;
         [self recalculateGeometryAnimated:NO];
@@ -320,7 +339,10 @@
 
 - (void)moveToProjectedPoint:(RMProjectedPoint)projectedPoint
 {
-    [self addPointToProjectedPoint:projectedPoint withDrawing:NO];
+    [self addCurveToProjectedPoint:projectedPoint
+                     controlPoint1:RMProjectedPointMake((double)INFINITY, (double)INFINITY)
+                     controlPoint2:RMProjectedPointMake((double)INFINITY, (double)INFINITY)
+                       withDrawing:NO];
 }
 
 - (void)moveToScreenPoint:(CGPoint)point
@@ -337,7 +359,10 @@
 
 - (void)addLineToProjectedPoint:(RMProjectedPoint)projectedPoint
 {
-    [self addPointToProjectedPoint:projectedPoint withDrawing:YES];
+    [self addCurveToProjectedPoint:projectedPoint
+                     controlPoint1:RMProjectedPointMake((double)INFINITY, (double)INFINITY)
+                     controlPoint2:RMProjectedPointMake((double)INFINITY, (double)INFINITY)
+                       withDrawing:YES];
 }
 
 - (void)addLineToScreenPoint:(CGPoint)point
@@ -352,6 +377,44 @@
     [self addLineToProjectedPoint:mercator];
 }
 
+- (void)addCurveToCoordinate:(CLLocationCoordinate2D)coordinate controlCoordinate1:(CLLocationCoordinate2D)controlCoordinate1 controlCoordinate2:(CLLocationCoordinate2D)controlCoordinate2
+{
+    RMProjectedPoint projectedPoint = [[mapView projection] coordinateToProjectedPoint:coordinate];
+
+    RMProjectedPoint controlProjectedPoint1 = [[mapView projection] coordinateToProjectedPoint:controlCoordinate1];
+    RMProjectedPoint controlProjectedPoint2 = [[mapView projection] coordinateToProjectedPoint:controlCoordinate2];
+
+    [self addCurveToProjectedPoint:projectedPoint
+            controlProjectedPoint1:controlProjectedPoint1
+            controlProjectedPoint2:controlProjectedPoint2];
+}
+
+- (void)addQuadCurveToCoordinate:(CLLocationCoordinate2D)coordinate controlCoordinate:(CLLocationCoordinate2D)controlCoordinate
+{
+    RMProjectedPoint projectedPoint = [[mapView projection] coordinateToProjectedPoint:coordinate];
+
+    RMProjectedPoint controlProjectedPoint = [[mapView projection] coordinateToProjectedPoint:controlCoordinate];
+
+    [self addQuadCurveToProjectedPoint:projectedPoint
+                 controlProjectedPoint:controlProjectedPoint];
+}
+
+- (void)addCurveToProjectedPoint:(RMProjectedPoint)projectedPoint controlProjectedPoint1:(RMProjectedPoint)controlProjectedPoint1 controlProjectedPoint2:(RMProjectedPoint)controlProjectedPoint2
+{
+    [self addCurveToProjectedPoint:projectedPoint
+                     controlPoint1:controlProjectedPoint1
+                     controlPoint2:controlProjectedPoint2
+                       withDrawing:YES];
+}
+
+- (void)addQuadCurveToProjectedPoint:(RMProjectedPoint)projectedPoint controlProjectedPoint:(RMProjectedPoint)controlProjectedPoint
+{
+    [self addCurveToProjectedPoint:projectedPoint
+                     controlPoint1:controlProjectedPoint
+                     controlPoint2:RMProjectedPointMake((double)INFINITY, (double)INFINITY)
+                       withDrawing:YES];
+}
+
 - (void)performBatchOperations:(void (^)(RMShape *aShape))block
 {
     ignorePathUpdates = YES;
@@ -363,6 +426,43 @@
 }
 
 #pragma mark - Accessors
+
+- (BOOL)containsPoint:(CGPoint)thePoint
+{
+    BOOL containsPoint = NO;
+
+    if ([self.fillColor isEqual:[UIColor clearColor]])
+    {
+        // if shape is not filled with a color, do a simple "point on path" test
+        //
+        if (self.additionalTouchPadding)
+        {
+            CGPathRef tapTargetPath = CGPathCreateCopyByStrokingPath(shapeLayer.path, nil, fmaxf(self.additionalTouchPadding, shapeLayer.lineWidth), 0, 0, 0);
+
+            if (tapTargetPath)
+            {
+                containsPoint = [[UIBezierPath bezierPathWithCGPath:tapTargetPath] containsPoint:thePoint];
+
+                CGPathRelease(tapTargetPath);
+            }
+        }
+        else
+        {
+            UIGraphicsBeginImageContext(self.bounds.size);
+            CGContextAddPath(UIGraphicsGetCurrentContext(), shapeLayer.path);
+            containsPoint = CGContextPathContainsPoint(UIGraphicsGetCurrentContext(), thePoint, kCGPathStroke);
+            UIGraphicsEndImageContext();
+        }
+    }
+    else
+    {
+        // else do a "path contains point" test
+        //
+        containsPoint = CGPathContainsPoint(shapeLayer.path, nil, thePoint, [shapeLayer.fillRule isEqualToString:kCAFillRuleEvenOdd]);
+    }
+
+    return containsPoint;
+}
 
 - (void)closePath
 {
@@ -433,6 +533,18 @@
     }
 }
 
+- (void)setFillPatternImage:(UIImage *)fillPatternImage
+{
+    if (fillPatternImage)
+        self.fillColor = nil;
+
+    if (_fillPatternImage != fillPatternImage)
+    {
+        _fillPatternImage = fillPatternImage;
+        [self recalculateGeometryAnimated:NO];
+    }
+}
+
 - (CGFloat)shadowBlur
 {
     return shapeLayer.shadowRadius;
@@ -497,8 +609,11 @@
 
 - (void)setAnnotation:(RMAnnotation *)newAnnotation
 {
-    super.annotation = newAnnotation;
-    [self recalculateGeometryAnimated:NO];
+    if (newAnnotation)
+    {
+        super.annotation = newAnnotation;
+        [self recalculateGeometryAnimated:NO];
+    }
 }
 
 @end

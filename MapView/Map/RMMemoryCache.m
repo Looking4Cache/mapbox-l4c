@@ -40,8 +40,6 @@
     if (!(self = [super init]))
         return nil;
 
-    RMLog(@"initializing memory cache %@ with capacity %d", self, aCapacity);
-
     _memoryCache = [[NSMutableDictionary alloc] initWithCapacity:aCapacity];
     _memoryCacheQueue = dispatch_queue_create("routeme.memoryCacheQueue", DISPATCH_QUEUE_CONCURRENT);
 
@@ -62,10 +60,12 @@
 {
     dispatch_barrier_sync(_memoryCacheQueue, ^{
         [_memoryCache removeAllObjects];
-        [_memoryCache release]; _memoryCache = nil;
+        _memoryCache = nil;
     });
-
-	[super dealloc];
+    
+#if ! OS_OBJECT_USE_OBJC
+    dispatch_release(_memoryCacheQueue);
+#endif
 }
 
 - (void)didReceiveMemoryWarning
@@ -93,7 +93,7 @@
 
     dispatch_sync(_memoryCacheQueue, ^{
 
-        cachedObject = [[_memoryCache objectForKey:tileHash] retain];
+        cachedObject = [_memoryCache objectForKey:tileHash];
 
         if (cachedObject)
         {
@@ -107,15 +107,13 @@
                     [_memoryCache removeObjectForKey:tileHash];
                 });
 
-                [cachedObject release]; cachedObject = nil;
+                cachedObject = nil;
             }
         }
 
     });
 
 //    RMLog(@"Memory cache hit    tile %d %d %d (%@)", tile.x, tile.y, tile.zoom, [RMTileCache tileHash:tile]);
-
-    [cachedObject autorelease];
 
     return [cachedObject cachedObject];
 }

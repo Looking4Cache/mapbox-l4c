@@ -29,12 +29,15 @@
 #import "RMPointAnnotation.h"
 
 #import "RMMarker.h"
+#import "RMMapView.h"
 
 @implementation RMPointAnnotation
 
 - (void)setLayer:(RMMapLayer *)newLayer
 {
-    if (newLayer)
+    if ( ! newLayer)
+        [super setLayer:nil];
+    else
         RMLog(@"Setting a custom layer on an %@ is a no-op", [self class]);
 }
 
@@ -42,7 +45,7 @@
 {
     if ( ! [super layer])
     {
-        RMMarker *marker = [[[RMMarker alloc] initWithMapBoxMarkerImage] autorelease];
+        RMMarker *marker = [[RMMarker alloc] initWithMapboxMarkerImage:nil tintColor:(RMPostVersion7 ? self.mapView.tintColor : nil)];
 
         marker.canShowCallout = YES;
 
@@ -50,6 +53,16 @@
     }
 
     return [super layer];
+}
+
+- (void)setImage:(UIImage *)image
+{
+    [(RMMarker *)[self layer] replaceUIImage:image];
+}
+
+- (UIImage *)image
+{
+    return [UIImage imageWithCGImage:(CGImageRef)[self layer].contents];
 }
 
 @end

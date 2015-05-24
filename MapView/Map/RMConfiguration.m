@@ -1,7 +1,7 @@
 //
 //  RMConfiguration.m
 //
-// Copyright (c) 2008-2012, Route-Me Contributors
+// Copyright (c) 2008-2013, Route-Me Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,12 +29,67 @@
 
 static RMConfiguration *RMConfigurationSharedInstance = nil;
 
+@implementation NSURLConnection (RMUserAgent)
+
++ (NSData *)sendBrandedSynchronousRequest:(NSURLRequest *)request returningResponse:(NSURLResponse **)response error:(NSError **)error
+{
+    NSMutableURLRequest *newRequest = [NSMutableURLRequest requestWithURL:request.URL
+                                                              cachePolicy:request.cachePolicy
+                                                          timeoutInterval:request.timeoutInterval];
+
+    [newRequest setValue:[[RMConfiguration sharedInstance] userAgent] forHTTPHeaderField:@"User-Agent"];
+
+    return [NSURLConnection sendSynchronousRequest:newRequest returningResponse:response error:error];
+}
+
+@end
+
+#pragma mark -
+
+@implementation NSData (RMUserAgent)
+
++ (instancetype)brandedDataWithContentsOfURL:(NSURL *)aURL
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:aURL];
+
+    [request setValue:[[RMConfiguration sharedInstance] userAgent] forHTTPHeaderField:@"User-Agent"];
+
+    return [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+}
+
+@end
+
+#pragma mark -
+
+@implementation NSString (RMUserAgent)
+
++ (instancetype)brandedStringWithContentsOfURL:(NSURL *)url encoding:(NSStringEncoding)enc error:(NSError **)error
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+
+    [request setValue:[[RMConfiguration sharedInstance] userAgent] forHTTPHeaderField:@"User-Agent"];
+
+    NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:error];
+
+    if ( ! returnData)
+        return nil;
+
+    return [[[self class] alloc] initWithData:returnData encoding:enc];
+}
+
+@end
+
+#pragma mark -
+
 @implementation RMConfiguration
 {
     id _propertyList;
 }
 
-+ (RMConfiguration *)configuration
+@synthesize userAgent=_userAgent;
+@synthesize accessToken=_accessToken;
+
++ (instancetype)sharedInstance
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -44,10 +99,17 @@ static RMConfiguration *RMConfigurationSharedInstance = nil;
     return RMConfigurationSharedInstance;
 }
 
++ (instancetype)configuration
+{
+    return [[self class] sharedInstance];
+}
+
 - (RMConfiguration *)initWithPath:(NSString *)path
 {
     if (!(self = [super init]))
         return nil;
+
+    _userAgent = [NSString stringWithFormat:@"Mapbox iOS SDK (%@/%@)", [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion]];
 
     if (path == nil)
     {
@@ -57,27 +119,27 @@ static RMConfiguration *RMConfigurationSharedInstance = nil;
 
     RMLog(@"reading route-me configuration from %@", path);
 
-    NSString *error = nil;
+    NSError *error = nil;
     NSData *plistData = [NSData dataWithContentsOfFile:path];
 
-    _propertyList = [[NSPropertyListSerialization propertyListFromData:plistData
-                                                      mutabilityOption:NSPropertyListImmutable
-                                                                format:NULL
-                                                      errorDescription:&error] retain];
+    _propertyList = [NSPropertyListSerialization propertyListWithData:plistData
+                                                              options:NSPropertyListImmutable
+                                                               format:NULL
+                                                                error:&error];
 
     if ( ! _propertyList)
     {
         RMLog(@"problem reading route-me configuration from %@: %@", path, error);
-        [error release];
     }
 
     return self;
 }
 
-- (void)dealloc
+- (NSString *)accessToken
 {
-    [_propertyList release]; _propertyList = nil;
-    [super dealloc];
+    NSAssert(_accessToken, @"An access token is required in order to use the Mapbox API. Obtain a token on your Mapbox account page at https://www.mapbox.com/account/apps/.");
+
+    return _accessToken;
 }
 
 - (NSDictionary *)cacheConfiguration

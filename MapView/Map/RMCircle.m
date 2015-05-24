@@ -1,7 +1,7 @@
 ///
 //  RMCircle.m
 //
-// Copyright (c) 2008-2012, Route-Me Contributors
+// Copyright (c) 2008-2013, Route-Me Contributors
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -29,9 +29,9 @@
 #import "RMProjection.h"
 #import "RMMapView.h"
 
-#define kDefaultLineWidth 10.0
+#define kDefaultLineWidth 2.0
 #define kDefaultLineColor [UIColor blackColor]
-#define kDefaultFillColor [UIColor blueColor]
+#define kDefaultFillColor [UIColor colorWithRed:0 green:0 blue:1.0 alpha:0.25]
 
 @interface RMCircle ()
 
@@ -65,22 +65,18 @@
     fillColor = kDefaultFillColor;
 
     scaleLineWidth = NO;
-    enableDragging = YES;
 
     circlePath = NULL;
     [self updateCirclePathAnimated:NO];
+
+    self.masksToBounds = NO;
 
     return self;
 }
 
 - (void)dealloc
 {
-    mapView = nil;
-    [shapeLayer release]; shapeLayer = nil;
     CGPathRelease(circlePath); circlePath = NULL;
-    [lineColor release]; lineColor = nil;
-    [fillColor release]; fillColor = nil;
-    [super dealloc];
 }
 
 #pragma mark -
@@ -128,16 +124,41 @@
     [self.shapeLayer setFillColor:[fillColor CGColor]];
     [self.shapeLayer setStrokeColor:[lineColor CGColor]];
     [self.shapeLayer setLineWidth:lineWidthInPixels];
+
+    if (self.fillPatternImage)
+        self.shapeLayer.fillColor = [[UIColor colorWithPatternImage:self.fillPatternImage] CGColor];
 }
 
 #pragma mark - Accessors
+
+- (BOOL)containsPoint:(CGPoint)thePoint
+{
+    BOOL containsPoint = NO;
+
+    if ([self.fillColor isEqual:[UIColor clearColor]])
+    {
+        // if shape is not filled with a color, do a simple "point on path" test
+        //
+        UIGraphicsBeginImageContext(self.bounds.size);
+        CGContextAddPath(UIGraphicsGetCurrentContext(), shapeLayer.path);
+        containsPoint = CGContextPathContainsPoint(UIGraphicsGetCurrentContext(), thePoint, kCGPathStroke);
+        UIGraphicsEndImageContext();
+    }
+    else
+    {
+        // else do a "path contains point" test
+        //
+        containsPoint = CGPathContainsPoint(shapeLayer.path, nil, thePoint, [shapeLayer.fillRule isEqualToString:kCAFillRuleEvenOdd]);
+    }
+
+    return containsPoint;
+}
 
 - (void)setLineColor:(UIColor *)newLineColor
 {
     if (lineColor != newLineColor)
     {
-        [lineColor release];
-        lineColor = [newLineColor retain];
+        lineColor = newLineColor;
         [self updateCirclePathAnimated:NO];
     }
 }
@@ -146,8 +167,19 @@
 {
     if (fillColor != newFillColor)
     {
-        [fillColor release];
-        fillColor = [newFillColor retain];
+        fillColor = newFillColor;
+        [self updateCirclePathAnimated:NO];
+    }
+}
+
+- (void)setFillPatternImage:(UIImage *)fillPatternImage
+{
+    if (fillPatternImage)
+        self.fillColor = nil;
+
+    if (_fillPatternImage != fillPatternImage)
+    {
+        _fillPatternImage = fillPatternImage;
         [self updateCirclePathAnimated:NO];
     }
 }
