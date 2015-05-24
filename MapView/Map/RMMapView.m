@@ -42,7 +42,8 @@
 
 #import "RMTileCache.h"
 #import "RMTileSource.h"
-#import "RMMapboxSource.h"
+// L4C
+#import "RMOpenStreetMapSource.h"
 
 #import "RMMapTiledLayerView.h"
 #import "RMMapOverlayView.h"
@@ -381,7 +382,8 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-    return [self initWithFrame:frame andTilesource:[RMMapboxSource new]];
+    // L4C
+    return [self initWithFrame:frame andTilesource:[RMOpenStreetMapSource new]];
 }
 
 - (id)initWithFrame:(CGRect)frame andTilesource:(id <RMTileSource>)newTilesource
@@ -655,7 +657,8 @@
         // needs a scroll view frame in order to calculate _metersPerPixel.
         // See https://github.com/mapbox/mapbox-ios-sdk/issues/270
         //
-        [self performInitializationWithTilesource:[RMMapboxSource new]
+        // L4C
+        [self performInitializationWithTilesource:[RMOpenStreetMapSource new]
                                  centerCoordinate:CLLocationCoordinate2DMake(kDefaultInitialLatitude, kDefaultInitialLongitude)
                                         zoomLevel:kDefaultInitialZoomLevel
                                      maxZoomLevel:kDefaultMaximumZoomLevel
@@ -2558,7 +2561,9 @@
 {
     tileSourcesMinZoom = ceilf(tileSourcesMinZoom) - 0.99;
 
-    if ( ! self.adjustTilesForRetinaDisplay && _screenScale > 1.0 && ! [RMMapboxSource isUsingLargeTiles])
+    // L4C
+    //if ( ! self.adjustTilesForRetinaDisplay && _screenScale > 1.0 && ! [RMMapboxSource isUsingLargeTiles])
+    if ( ! self.adjustTilesForRetinaDisplay && _screenScale > 1.0)
         tileSourcesMinZoom -= 1.0;
 
     [self setMinZoom:tileSourcesMinZoom];
@@ -2585,7 +2590,9 @@
 {
     tileSourcesMaxZoom = floorf(tileSourcesMaxZoom);
 
-    if ( ! self.adjustTilesForRetinaDisplay && _screenScale > 1.0 && ! [RMMapboxSource isUsingLargeTiles])
+    // L4C
+    //if ( ! self.adjustTilesForRetinaDisplay && _screenScale > 1.0 && ! [RMMapboxSource isUsingLargeTiles])
+    if ( ! self.adjustTilesForRetinaDisplay && _screenScale > 1.0)
         tileSourcesMaxZoom -= 1.0;
 
     [self setMaxZoom:tileSourcesMaxZoom];
@@ -2618,7 +2625,9 @@
 {
     float zoom = ceilf(_zoom);
 
-    if ( ! self.adjustTilesForRetinaDisplay && _screenScale > 1.0 && ! [RMMapboxSource isUsingLargeTiles])
+    // L4C
+    //if ( ! self.adjustTilesForRetinaDisplay && _screenScale > 1.0 && ! [RMMapboxSource isUsingLargeTiles])
+    if ( ! self.adjustTilesForRetinaDisplay && _screenScale > 1.0)
         zoom += 1.0;
 
     return zoom;
@@ -2628,7 +2637,9 @@
 {
     tileSourcesZoom = floorf(tileSourcesZoom);
 
-    if ( ! self.adjustTilesForRetinaDisplay && _screenScale > 1.0 && ! [RMMapboxSource isUsingLargeTiles])
+    // L4C
+    //if ( ! self.adjustTilesForRetinaDisplay && _screenScale > 1.0 && ! [RMMapboxSource isUsingLargeTiles])
+    if ( ! self.adjustTilesForRetinaDisplay && _screenScale > 1.0)
         tileSourcesZoom -= 1.0;
 
     [self setZoom:tileSourcesZoom];
@@ -2694,7 +2705,9 @@
 
 - (float)adjustedZoomForRetinaDisplay
 {
-    if (!self.adjustTilesForRetinaDisplay && _screenScale > 1.0 && ! [RMMapboxSource isUsingLargeTiles])
+    // L4C
+    //if (!self.adjustTilesForRetinaDisplay && _screenScale > 1.0 && ! [RMMapboxSource isUsingLargeTiles])
+    if (!self.adjustTilesForRetinaDisplay && _screenScale > 1.0)
         return [self zoom] + 1.0;
 
     return [self zoom];
