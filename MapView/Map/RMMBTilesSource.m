@@ -103,10 +103,13 @@
     NSUInteger x    = tile.x;
     NSUInteger y    = pow(2, zoom) - tile.y - 1;
 
+    /*
+     L4C: Not used
     dispatch_async(dispatch_get_main_queue(), ^(void)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:RMTileRequested object:[NSNumber numberWithUnsignedLongLong:RMTileKey(tile)]];
     });
+     */
     
     __block UIImage *image = nil;
 
@@ -132,10 +135,13 @@
         [results close];
     }];
 
+    /*
+     L4C: Not used
     dispatch_async(dispatch_get_main_queue(), ^(void)
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:RMTileRetrieved object:[NSNumber numberWithUnsignedLongLong:RMTileKey(tile)]];
     });
+     */
 
     return image;
 }
