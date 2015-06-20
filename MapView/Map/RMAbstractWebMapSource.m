@@ -70,18 +70,23 @@
     if ( ! [self tileSourceHasTile:tile])
         return (UIImage *)[NSNull null];
     
-    if (self.isCacheable)
-    {
-        image = [tileCache cachedImage:tile withCacheKey:[self uniqueTilecacheKey]];
-        
-        if (image)
-            return image;
-    }
+    /*
+     L4C: Cache already checked in TiledLayerView
+     if (self.isCacheable)
+     {
+     image = [tileCache cachedImage:tile withCacheKey:[self uniqueTilecacheKey]];
+     
+     if (image)
+     return image;
+     }*/
     
-    dispatch_async(dispatch_get_main_queue(), ^(void)
-                   {
-                       [[NSNotificationCenter defaultCenter] postNotificationName:RMTileRequested object:[NSNumber numberWithUnsignedLongLong:RMTileKey(tile)]];
-                   });
+    /*
+     L4C: Not used
+     dispatch_async(dispatch_get_main_queue(), ^(void)
+     {
+     [[NSNotificationCenter defaultCenter] postNotificationName:RMTileRequested object:[NSNumber numberWithUnsignedLongLong:RMTileKey(tile)]];
+     });
+     */
     
     NSArray *URLs = [self URLsForTile:tile];
     
@@ -175,10 +180,13 @@
     if (image && self.isCacheable)
         [tileCache addImage:image forTile:tile withCacheKey:[self uniqueTilecacheKey]];
     
-    dispatch_async(dispatch_get_main_queue(), ^(void)
-                   {
-                       [[NSNotificationCenter defaultCenter] postNotificationName:RMTileRetrieved object:[NSNumber numberWithUnsignedLongLong:RMTileKey(tile)]];
-                   });
+    /*
+     L4C: Not used
+     dispatch_async(dispatch_get_main_queue(), ^(void)
+     {
+     [[NSNotificationCenter defaultCenter] postNotificationName:RMTileRetrieved object:[NSNumber numberWithUnsignedLongLong:RMTileKey(tile)]];
+     });
+     */
     
     return image;
 }
