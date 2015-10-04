@@ -57,6 +57,8 @@
 		2D62024B1B119E0B00FAF5D3 /* RMOSMScoutSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D6202401B119E0B00FAF5D3 /* RMOSMScoutSource.h */; };
 		2D62024C1B119E0B00FAF5D3 /* RMOSMScoutSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6202411B119E0B00FAF5D3 /* RMOSMScoutSource.m */; };
 		2D62024D1B119E0B00FAF5D3 /* RMStaticOverlayControlView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D6202421B119E0B00FAF5D3 /* RMStaticOverlayControlView.h */; };
+		2DB02D2A1BC185FB002B1200 /* RMHillshadeTileSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DB02D281BC185FB002B1200 /* RMHillshadeTileSource.h */; settings = {ASSET_TAGS = (); }; };
+		2DB02D2B1BC185FB002B1200 /* RMHillshadeTileSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DB02D291BC185FB002B1200 /* RMHillshadeTileSource.m */; settings = {ASSET_TAGS = (); }; };
 		96492C400FA8AD3400EBA6D2 /* RMGlobalConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 96492C3F0FA8AD3400EBA6D2 /* RMGlobalConstants.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B1EB26C610B5D8E6009F8658 /* RMNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = B1EB26C510B5D8E6009F8658 /* RMNotifications.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B8474BA40EB40094006A0BC1 /* RMDatabaseCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B8474B980EB40094006A0BC1 /* RMDatabaseCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -254,6 +256,8 @@
 		2D6202401B119E0B00FAF5D3 /* RMOSMScoutSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMOSMScoutSource.h; sourceTree = "<group>"; };
 		2D6202411B119E0B00FAF5D3 /* RMOSMScoutSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMOSMScoutSource.m; sourceTree = "<group>"; };
 		2D6202421B119E0B00FAF5D3 /* RMStaticOverlayControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMStaticOverlayControlView.h; sourceTree = "<group>"; };
+		2DB02D281BC185FB002B1200 /* RMHillshadeTileSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMHillshadeTileSource.h; sourceTree = "<group>"; };
+		2DB02D291BC185FB002B1200 /* RMHillshadeTileSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMHillshadeTileSource.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MapView_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		96492C3F0FA8AD3400EBA6D2 /* RMGlobalConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMGlobalConstants.h; sourceTree = "<group>"; };
 		B1EB26C510B5D8E6009F8658 /* RMNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMNotifications.h; sourceTree = "<group>"; };
@@ -441,6 +445,8 @@
 				DD4195C8162356900049E6BA /* RMBingSource.m */,
 				DD1985BF165C5F6400DF667F /* RMTileMillSource.h */,
 				DD1985C0165C5F6400DF667F /* RMTileMillSource.m */,
+				2DB02D281BC185FB002B1200 /* RMHillshadeTileSource.h */,
+				2DB02D291BC185FB002B1200 /* RMHillshadeTileSource.m */,
 			);
 			name = "Map Sources";
 			sourceTree = "<group>";
@@ -810,6 +816,7 @@
 				16E5A63A15E531F200C92A5A /* RMCompositeSource.h in Headers */,
 				DD7C7E38164C894F0021CCA5 /* RMStaticMapView.h in Headers */,
 				DDE357E71651F570001DB842 /* RMPointAnnotation.h in Headers */,
+				2DB02D2A1BC185FB002B1200 /* RMHillshadeTileSource.h in Headers */,
 				B8C974220E8A19B2007D16AD /* RMProjection.h in Headers */,
 				DDE357F0165223A3001DB842 /* RMShapeAnnotation.h in Headers */,
 				DDE357F416522661001DB842 /* RMPolylineAnnotation.h in Headers */,
@@ -969,6 +976,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DB02D2B1BC185FB002B1200 /* RMHillshadeTileSource.m in Sources */,
 				B8C9743F0E8A19B2007D16AD /* RMTileImage.m in Sources */,
 				B8C974400E8A19B2007D16AD /* RMTile.c in Sources */,
 				B8C974410E8A19B2007D16AD /* RMOpenStreetMapSource.m in Sources */,
