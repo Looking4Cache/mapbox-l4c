@@ -34,8 +34,8 @@
     if (!(self = [super init]))
         return nil;
     
-    self.minZoom = 9;
-    self.maxZoom = 11;
+    self.minZoom = 4;
+    self.maxZoom = 12;
     
     return self;
 }
@@ -46,8 +46,8 @@
               @"%@ tried to retrieve tile with zoomLevel %d, outside source's defined range %f to %f",
               self, tile.zoom, self.minZoom, self.maxZoom);
     
-    NSLog(@"%@",[NSString stringWithFormat:@"http://www.looking4cache.com/hillshade5/%d/%d/%d.png", tile.zoom, tile.x, tile.y]);
-    return [NSURL URLWithString:[NSString stringWithFormat:@"http://www.looking4cache.com/hillshade8/%d/%d/%d.png", tile.zoom, tile.x, tile.y]];
+    //NSLog(@"%@",[NSString stringWithFormat:@"http://offlinemap.info/world//%d/%d/%d.png", tile.zoom, tile.x, tile.y]);
+    return [NSURL URLWithString:[NSString stringWithFormat:@"http://offlinemap.info/world/%d/%d/%d.png", tile.zoom, tile.x, tile.y]];
 }
 
 - (NSString *)uniqueTilecacheKey
