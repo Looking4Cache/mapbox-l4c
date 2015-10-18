@@ -27,6 +27,6 @@
 
 #import "RMAbstractWebMapSource.h"
 
-@interface RMHillshadeTileSource : RMAbstractWebMapSource
+@interface RMHillshadeTileSource : RMAbstractMercatorTileSource
 
 @end
