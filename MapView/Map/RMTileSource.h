@@ -108,4 +108,9 @@
 
 - (void)didReceiveMemoryWarning;
 
+
+// L4C - Ignore MissingTileDepth of mapView, fetch last zoom level
+@property (nonatomic, assign) BOOL ignoreMissingTileDepth;
+
+
 @end
