@@ -83,6 +83,12 @@
 	return self;
 }
 
+- (BOOL)ignoreMissingTileDepth
+{
+    // L4C - Ignore MissingTileDepth of mapView, fetch last zoom level
+    return NO;
+}
+
 - (void)cancelAllDownloads
 {
     // no-op

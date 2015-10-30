@@ -1406,9 +1406,9 @@
 
     [self insertSubview:_overlayView aboveSubview:_mapScrollView];
 
-    // L4C : CustomMapView unter OverlayView
+    // L4C : CustomMapView unter MapScrollView
     if ( _customMapView != nil )
-        [self insertSubview:_customMapView belowSubview:_overlayView];
+        [self insertSubview:_customMapView belowSubview:_mapScrollView];
 
     // L4C : StaticOverlayControlView unter OverlayView
     if ( _staticOverlayControlView != nil )
@@ -1445,6 +1445,13 @@
 
     [_visibleAnnotations removeAllObjects];
     [self correctPositionOfAllAnnotations];
+}
+
+- (void)setCustomMapView:(UIView<RMCustomMapView> *)customMapView
+{
+    // L4C: CustomMapView hinzufügen
+    _customMapView = customMapView;
+    [self insertSubview:_customMapView belowSubview:_mapScrollView];
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView

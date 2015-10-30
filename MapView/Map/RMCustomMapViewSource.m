@@ -51,7 +51,6 @@
         return nil;
     
     customMapView.userInteractionEnabled = NO;
-    [mapView insertSubview:customMapView belowSubview:mapView.overlayView];
     mapView.customMapView = customMapView;
     
     return self;

@@ -54,6 +54,12 @@
     return self;
 }
 
+- (BOOL)ignoreMissingTileDepth
+{
+    // L4C - Ignore MissingTileDepth of mapView, fetch last zoom level
+    return NO;
+}
+
 - (RMSphericalTrapezium)latitudeLongitudeBoundingBox
 {
     return kDefaultLatLonBoundingBox;
