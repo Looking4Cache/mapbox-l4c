@@ -111,6 +111,7 @@
 
 // L4C - Ignore MissingTileDepth of mapView, fetch last zoom level
 @property (nonatomic, assign) BOOL ignoreMissingTileDepth;
-
+// L4C - Alpha Value for tile source
+@property (nonatomic, assign) float alpha;
 
 @end

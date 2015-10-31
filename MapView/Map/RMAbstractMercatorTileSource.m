@@ -60,6 +60,12 @@
     return NO;
 }
 
+- (float)alpha
+{
+    // L4C - Alpha Value for tile source
+    return 1.0f;
+}
+
 - (RMSphericalTrapezium)latitudeLongitudeBoundingBox
 {
     return kDefaultLatLonBoundingBox;

@@ -327,7 +327,12 @@
                 UIGraphicsEndImageContext();
             }
             
-            [tileImage drawInRect:rect];
+            // L4C - Alpha value of tileSources
+            if ( _tileSource.alpha < 1.0f) {
+                [tileImage drawInRect:rect blendMode:kCGBlendModeNormal alpha:_tileSource.alpha];
+            } else {
+                [tileImage drawInRect:rect];
+            }
         }
         else
         {
