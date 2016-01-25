@@ -45,9 +45,14 @@
     CLLocationCoordinate2D coord = [self.projection projectedPointToCoordinate:RMProjectedPointMake(x,y)];
    
     // Tile berechnen
-    dispatch_sync(renderQueue, ^{
-        image = [self.externalRenderer renderImageForCoordiante:coord scale:scale];
-    });
+    @try {
+        dispatch_sync(renderQueue, ^{
+            image = [self.externalRenderer renderImageForCoordiante:coord scale:scale];
+        });
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",exception);
+    }
     
     // Cachen
     if ( image )
