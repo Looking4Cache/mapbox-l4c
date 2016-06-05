@@ -881,19 +881,23 @@
 
     if ((myPoint.x / self.bounds.size.width) < (myPoint.y / self.bounds.size.height))
     {
-        if ((myPoint.y / self.bounds.size.height) > 1)
-        {
-            zoomRect.size.width = self.bounds.size.width * (myPoint.y / self.bounds.size.height);
+        // L4C
+        //if ((myPoint.y / self.bounds.size.height) > 1)
+        //{
+            // L4C
+            // zoomRect.size.width = self.bounds.size.width * (myPoint.y / self.bounds.size.height);
+            zoomRect.size.width = self.bounds.size.height * (myPoint.y / self.bounds.size.height);
             zoomRect.size.height = self.bounds.size.height * (myPoint.y / self.bounds.size.height);
-        }
+        //}
     }
     else
     {
-        if ((myPoint.x / self.bounds.size.width) > 1)
-        {
+        // L4C
+        //if ((myPoint.x / self.bounds.size.width) > 1)
+        //{
             zoomRect.size.width = self.bounds.size.width * (myPoint.x / self.bounds.size.width);
             zoomRect.size.height = self.bounds.size.height * (myPoint.x / self.bounds.size.width);
-        }
+        //}
     }
 
     myOrigin.x = myOrigin.x - (zoomRect.size.width / 2);
