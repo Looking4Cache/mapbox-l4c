@@ -30,8 +30,10 @@
 @protocol RMExternalTileRenderer <NSObject>
 
 - (void)close;
-- (UIImage *)renderImageForCoordiante:(CLLocationCoordinate2D)coordinate scale:(double)scale;
-
 @property (strong, nonatomic) NSString *uniqueTilecacheKey;
+
+@optional
+- (UIImage *)renderImageForCoordiante:(CLLocationCoordinate2D)coordinate scale:(double)scale;
+- (UIImage *)renderImageForTile:(RMTile)tile;
 
 @end

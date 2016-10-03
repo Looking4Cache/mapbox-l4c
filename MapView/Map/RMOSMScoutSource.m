@@ -25,7 +25,7 @@
 - (UIImage *)imageForTile:(RMTile)tile inCache:(RMTileCache *)tileCache
 {
     __block UIImage *image = nil;
-	tile = [[self mercatorToTileProjection] normaliseTile:tile];
+    tile = [[self mercatorToTileProjection] normaliseTile:tile];
     
     // Versuchen aus Cache zu ermitteln
     image = [tileCache cachedImage:tile withCacheKey:[self uniqueTilecacheKey]];
@@ -38,16 +38,20 @@
     double tileMetersPerPixel = planetBounds.size.width / (self.tileSideLength * scale);
     double paddedTileSideLength = self.tileSideLength + (2.0 * kTileSidePadding);
     CGPoint bottomLeft = CGPointMake((tile.x * self.tileSideLength) - kTileSidePadding,
-                                     ((scale - tile.y - 1) * self.tileSideLength) - kTileSidePadding);   
+                                     ((scale - tile.y - 1) * self.tileSideLength) - kTileSidePadding);
     double modifier = ( paddedTileSideLength * tileMetersPerPixel ) / 2;
     double x = (bottomLeft.x * tileMetersPerPixel) - fabs(planetBounds.origin.x) + modifier;
     double y = (bottomLeft.y * tileMetersPerPixel) - fabs(planetBounds.origin.y) + modifier;
     CLLocationCoordinate2D coord = [self.projection projectedPointToCoordinate:RMProjectedPointMake(x,y)];
-   
+    
     // Tile berechnen
     @try {
         dispatch_sync(renderQueue, ^{
-            image = [self.externalRenderer renderImageForCoordiante:coord scale:scale];
+            if ( [self.externalRenderer respondsToSelector:@selector(renderImageForCoordiante:scale:)] ) {
+                image = [self.externalRenderer renderImageForCoordiante:coord scale:scale];
+            } else if ( [self.externalRenderer respondsToSelector:@selector(renderImageForTile:)] ) {
+                image = [self.externalRenderer renderImageForTile:tile];
+            }
         });
     }
     @catch (NSException *exception) {
@@ -58,8 +62,9 @@
     if ( image )
         [tileCache addImage:image forTile:tile withCacheKey:[self uniqueTilecacheKey]];
     
-	return image;
+    return image;
 }
+
 
 - (NSString *)uniqueTilecacheKey
 {
