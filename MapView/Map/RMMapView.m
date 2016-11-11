@@ -1170,7 +1170,11 @@
 
     if ([self shouldZoomToTargetZoom:targetZoom withZoomFactor:zoomFactor])
     {
-        float zoomScale = _mapScrollView.zoomScale;
+        // L4C: Zoom konstant etwas darunter (float ungenauigkeit..)
+        //float zoomScale = _mapScrollView.zoomScale;
+        int32_t zoomScale = _mapScrollView.zoomScale;
+        zoomScale--;
+        
         CGSize newZoomSize = CGSizeMake(_mapScrollView.bounds.size.width / zoomFactor,
                                         _mapScrollView.bounds.size.height / zoomFactor);
         CGFloat factorX = pivot.x / _mapScrollView.bounds.size.width,
