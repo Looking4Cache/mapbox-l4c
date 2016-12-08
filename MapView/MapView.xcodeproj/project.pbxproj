@@ -57,6 +57,21 @@
 		2D62024B1B119E0B00FAF5D3 /* RMOSMScoutSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D6202401B119E0B00FAF5D3 /* RMOSMScoutSource.h */; };
 		2D62024C1B119E0B00FAF5D3 /* RMOSMScoutSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6202411B119E0B00FAF5D3 /* RMOSMScoutSource.m */; };
 		2D62024D1B119E0B00FAF5D3 /* RMStaticOverlayControlView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D6202421B119E0B00FAF5D3 /* RMStaticOverlayControlView.h */; };
+		2D9193131DF9E02E00C608EA /* FICEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D9193041DF9E02E00C608EA /* FICEntity.h */; };
+		2D9193141DF9E02E00C608EA /* FICImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D9193051DF9E02E00C608EA /* FICImageCache.h */; };
+		2D9193151DF9E02E00C608EA /* FICImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9193061DF9E02E00C608EA /* FICImageCache.m */; };
+		2D9193161DF9E02E00C608EA /* FICImageCache+FICErrorLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D9193071DF9E02E00C608EA /* FICImageCache+FICErrorLogging.h */; };
+		2D9193171DF9E02E00C608EA /* FICImageFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D9193081DF9E02E00C608EA /* FICImageFormat.h */; };
+		2D9193181DF9E02E00C608EA /* FICImageFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9193091DF9E02E00C608EA /* FICImageFormat.m */; };
+		2D9193191DF9E02E00C608EA /* FICImageTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D91930A1DF9E02E00C608EA /* FICImageTable.h */; };
+		2D91931A1DF9E02E00C608EA /* FICImageTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D91930B1DF9E02E00C608EA /* FICImageTable.m */; };
+		2D91931B1DF9E02E00C608EA /* FICImageTableChunk.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D91930C1DF9E02E00C608EA /* FICImageTableChunk.h */; };
+		2D91931C1DF9E02E00C608EA /* FICImageTableChunk.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D91930D1DF9E02E00C608EA /* FICImageTableChunk.m */; };
+		2D91931D1DF9E02E00C608EA /* FICImageTableEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D91930E1DF9E02E00C608EA /* FICImageTableEntry.h */; };
+		2D91931E1DF9E02E00C608EA /* FICImageTableEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D91930F1DF9E02E00C608EA /* FICImageTableEntry.m */; };
+		2D91931F1DF9E02E00C608EA /* FICImports.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D9193101DF9E02E00C608EA /* FICImports.h */; };
+		2D9193201DF9E02E00C608EA /* FICUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D9193111DF9E02E00C608EA /* FICUtilities.h */; };
+		2D9193211DF9E02E00C608EA /* FICUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9193121DF9E02E00C608EA /* FICUtilities.m */; };
 		96492C400FA8AD3400EBA6D2 /* RMGlobalConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 96492C3F0FA8AD3400EBA6D2 /* RMGlobalConstants.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B1EB26C610B5D8E6009F8658 /* RMNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = B1EB26C510B5D8E6009F8658 /* RMNotifications.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B8474BA40EB40094006A0BC1 /* RMDatabaseCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B8474B980EB40094006A0BC1 /* RMDatabaseCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -254,6 +269,21 @@
 		2D6202401B119E0B00FAF5D3 /* RMOSMScoutSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMOSMScoutSource.h; sourceTree = "<group>"; };
 		2D6202411B119E0B00FAF5D3 /* RMOSMScoutSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMOSMScoutSource.m; sourceTree = "<group>"; };
 		2D6202421B119E0B00FAF5D3 /* RMStaticOverlayControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMStaticOverlayControlView.h; sourceTree = "<group>"; };
+		2D9193041DF9E02E00C608EA /* FICEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FICEntity.h; path = Map/FastImageCache/FICEntity.h; sourceTree = "<group>"; };
+		2D9193051DF9E02E00C608EA /* FICImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FICImageCache.h; path = Map/FastImageCache/FICImageCache.h; sourceTree = "<group>"; };
+		2D9193061DF9E02E00C608EA /* FICImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FICImageCache.m; path = Map/FastImageCache/FICImageCache.m; sourceTree = "<group>"; };
+		2D9193071DF9E02E00C608EA /* FICImageCache+FICErrorLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FICImageCache+FICErrorLogging.h"; path = "Map/FastImageCache/FICImageCache+FICErrorLogging.h"; sourceTree = "<group>"; };
+		2D9193081DF9E02E00C608EA /* FICImageFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FICImageFormat.h; path = Map/FastImageCache/FICImageFormat.h; sourceTree = "<group>"; };
+		2D9193091DF9E02E00C608EA /* FICImageFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FICImageFormat.m; path = Map/FastImageCache/FICImageFormat.m; sourceTree = "<group>"; };
+		2D91930A1DF9E02E00C608EA /* FICImageTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FICImageTable.h; path = Map/FastImageCache/FICImageTable.h; sourceTree = "<group>"; };
+		2D91930B1DF9E02E00C608EA /* FICImageTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FICImageTable.m; path = Map/FastImageCache/FICImageTable.m; sourceTree = "<group>"; };
+		2D91930C1DF9E02E00C608EA /* FICImageTableChunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FICImageTableChunk.h; path = Map/FastImageCache/FICImageTableChunk.h; sourceTree = "<group>"; };
+		2D91930D1DF9E02E00C608EA /* FICImageTableChunk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FICImageTableChunk.m; path = Map/FastImageCache/FICImageTableChunk.m; sourceTree = "<group>"; };
+		2D91930E1DF9E02E00C608EA /* FICImageTableEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FICImageTableEntry.h; path = Map/FastImageCache/FICImageTableEntry.h; sourceTree = "<group>"; };
+		2D91930F1DF9E02E00C608EA /* FICImageTableEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FICImageTableEntry.m; path = Map/FastImageCache/FICImageTableEntry.m; sourceTree = "<group>"; };
+		2D9193101DF9E02E00C608EA /* FICImports.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FICImports.h; path = Map/FastImageCache/FICImports.h; sourceTree = "<group>"; };
+		2D9193111DF9E02E00C608EA /* FICUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FICUtilities.h; path = Map/FastImageCache/FICUtilities.h; sourceTree = "<group>"; };
+		2D9193121DF9E02E00C608EA /* FICUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FICUtilities.m; path = Map/FastImageCache/FICUtilities.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MapView_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		96492C3F0FA8AD3400EBA6D2 /* RMGlobalConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMGlobalConstants.h; sourceTree = "<group>"; };
 		B1EB26C510B5D8E6009F8658 /* RMNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMNotifications.h; sourceTree = "<group>"; };
@@ -497,6 +527,28 @@
 			name = OWN;
 			sourceTree = "<group>";
 		};
+		2D9193221DF9E03B00C608EA /* FastImageCache */ = {
+			isa = PBXGroup;
+			children = (
+				2D9193041DF9E02E00C608EA /* FICEntity.h */,
+				2D9193051DF9E02E00C608EA /* FICImageCache.h */,
+				2D9193061DF9E02E00C608EA /* FICImageCache.m */,
+				2D9193071DF9E02E00C608EA /* FICImageCache+FICErrorLogging.h */,
+				2D9193081DF9E02E00C608EA /* FICImageFormat.h */,
+				2D9193091DF9E02E00C608EA /* FICImageFormat.m */,
+				2D91930A1DF9E02E00C608EA /* FICImageTable.h */,
+				2D91930B1DF9E02E00C608EA /* FICImageTable.m */,
+				2D91930C1DF9E02E00C608EA /* FICImageTableChunk.h */,
+				2D91930D1DF9E02E00C608EA /* FICImageTableChunk.m */,
+				2D91930E1DF9E02E00C608EA /* FICImageTableEntry.h */,
+				2D91930F1DF9E02E00C608EA /* FICImageTableEntry.m */,
+				2D9193101DF9E02E00C608EA /* FICImports.h */,
+				2D9193111DF9E02E00C608EA /* FICUtilities.h */,
+				2D9193121DF9E02E00C608EA /* FICUtilities.m */,
+			);
+			name = FastImageCache;
+			sourceTree = "<group>";
+		};
 		B83E64CE0E80E73F001663B6 /* Tile & Overlay Rendering */ = {
 			isa = PBXGroup;
 			children = (
@@ -736,6 +788,7 @@
 		DD932BC2165C294100D69D49 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				2D9193221DF9E03B00C608EA /* FastImageCache */,
 				B8474B8C0EB40094006A0BC1 /* FMDB */,
 				DDC4BEEE152E3DEC00089409 /* GRMustache */,
 				DDDFF7FE165D5BA200A9D877 /* Proj4 */,
@@ -795,6 +848,7 @@
 				16EC85D2133CA6C300219947 /* RMAbstractMercatorTileSource.h in Headers */,
 				16EC85D4133CA6C300219947 /* RMAbstractWebMapSource.h in Headers */,
 				DD56B9581961E23F00706C67 /* FMResultSet.h in Headers */,
+				2D9193161DF9E02E00C608EA /* FICImageCache+FICErrorLogging.h in Headers */,
 				16EC85D6133CA6C300219947 /* RMCacheObject.h in Headers */,
 				160EEDAF13D41DEC007C5501 /* RMAnnotation.h in Headers */,
 				DD2B375514CF8197008DE8CB /* RMMBTilesSource.h in Headers */,
@@ -807,17 +861,23 @@
 				DDA6B8BD155CAB67003DB5D8 /* RMUserTrackingBarButtonItem.h in Headers */,
 				16F98C961590CFF000FF90CE /* RMShape.h in Headers */,
 				DD4BE198161CE296003EF677 /* Mapbox.h in Headers */,
+				2D9193171DF9E02E00C608EA /* FICImageFormat.h in Headers */,
 				16E5A63A15E531F200C92A5A /* RMCompositeSource.h in Headers */,
+				2D91931F1DF9E02E00C608EA /* FICImports.h in Headers */,
 				DD7C7E38164C894F0021CCA5 /* RMStaticMapView.h in Headers */,
+				2D9193131DF9E02E00C608EA /* FICEntity.h in Headers */,
+				2D91931D1DF9E02E00C608EA /* FICImageTableEntry.h in Headers */,
 				DDE357E71651F570001DB842 /* RMPointAnnotation.h in Headers */,
 				B8C974220E8A19B2007D16AD /* RMProjection.h in Headers */,
 				DDE357F0165223A3001DB842 /* RMShapeAnnotation.h in Headers */,
 				DDE357F416522661001DB842 /* RMPolylineAnnotation.h in Headers */,
 				DDE357F816522CD8001DB842 /* RMPolygonAnnotation.h in Headers */,
 				DD1985C1165C5F6400DF667F /* RMTileMillSource.h in Headers */,
+				2D9193141DF9E02E00C608EA /* FICImageCache.h in Headers */,
 				DD63176317D15EB5008CA79B /* RMCircleAnnotation.h in Headers */,
 				DD63175F17D1506D008CA79B /* RMGreatCircleAnnotation.h in Headers */,
 				B8C974260E8A19B2007D16AD /* RMTile.h in Headers */,
+				2D91931B1DF9E02E00C608EA /* FICImageTableChunk.h in Headers */,
 				B8C974270E8A19B2007D16AD /* RMPixel.h in Headers */,
 				2D6202481B119E0B00FAF5D3 /* RMExternalTileRenderer.h in Headers */,
 				B8C9742A0E8A19B2007D16AD /* RMTileImage.h in Headers */,
@@ -835,6 +895,8 @@
 				1609AF8E14068B09008344B7 /* RMMapOverlayView.h in Headers */,
 				16128CF5148D295300C23C0E /* RMOpenSeaMapSource.h in Headers */,
 				DD8CDB4A14E0507100B73EB9 /* RMMapQuestOSMSource.h in Headers */,
+				2D9193191DF9E02E00C608EA /* FICImageTable.h in Headers */,
+				2D9193201DF9E02E00C608EA /* FICUtilities.h in Headers */,
 				16FFF2CB14E3DBF700A170EC /* RMMapQuestOpenAerialSource.h in Headers */,
 				DD3BEF7915913C55007892D8 /* RMAttributionViewController.h in Headers */,
 				16F3581B15864135003A3AD9 /* RMMapScrollView.h in Headers */,
@@ -970,6 +1032,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B8C9743F0E8A19B2007D16AD /* RMTileImage.m in Sources */,
+				2D91931A1DF9E02E00C608EA /* FICImageTable.m in Sources */,
 				B8C974400E8A19B2007D16AD /* RMTile.c in Sources */,
 				B8C974410E8A19B2007D16AD /* RMOpenStreetMapSource.m in Sources */,
 				B8C974420E8A19B2007D16AD /* RMMemoryCache.m in Sources */,
@@ -978,6 +1041,7 @@
 				B8C974440E8A19B2007D16AD /* RMFractalTileProjection.m in Sources */,
 				B8C974480E8A19B2007D16AD /* RMTileCache.m in Sources */,
 				DD63176417D15EB5008CA79B /* RMCircleAnnotation.m in Sources */,
+				2D9193181DF9E02E00C608EA /* FICImageFormat.m in Sources */,
 				B8C9744A0E8A19B2007D16AD /* RMProjection.m in Sources */,
 				B8C9746C0E8A1A50007D16AD /* RMMapView.m in Sources */,
 				B8F3FC610EA2B382004D8F85 /* RMMapLayer.m in Sources */,
@@ -990,6 +1054,7 @@
 				23A0AAE90EB90A99003A4521 /* RMFoundation.c in Sources */,
 				D1437B36122869E400888DAE /* RMDBMapSource.m in Sources */,
 				25757F501291C8640083D504 /* RMCircle.m in Sources */,
+				2D9193151DF9E02E00C608EA /* FICImageCache.m in Sources */,
 				16EC85D3133CA6C300219947 /* RMAbstractMercatorTileSource.m in Sources */,
 				16EC85D5133CA6C300219947 /* RMAbstractWebMapSource.m in Sources */,
 				16EC85D7133CA6C300219947 /* RMCacheObject.m in Sources */,
@@ -1009,8 +1074,10 @@
 				DDC4BEF2152E3FAE00089409 /* RMInteractiveSource.m in Sources */,
 				DD3BEF7A15913C55007892D8 /* RMAttributionViewController.m in Sources */,
 				DD8FD7551559E4A40044D96F /* RMUserLocation.m in Sources */,
+				2D9193211DF9E02E00C608EA /* FICUtilities.m in Sources */,
 				DDA6B8BE155CAB67003DB5D8 /* RMUserTrackingBarButtonItem.m in Sources */,
 				16F3581C15864135003A3AD9 /* RMMapScrollView.m in Sources */,
+				2D91931E1DF9E02E00C608EA /* FICImageTableEntry.m in Sources */,
 				16F98C971590CFF000FF90CE /* RMShape.m in Sources */,
 				16FBF07715936BF1004ECAD1 /* RMTileSourcesContainer.m in Sources */,
 				161E563B1594664E00B00BB6 /* RMOpenSeaMapLayer.m in Sources */,
@@ -1021,6 +1088,7 @@
 				DD56B9591961E23F00706C67 /* FMResultSet.m in Sources */,
 				2D6202451B119E0B00FAF5D3 /* RMCustomMapViewSource.m in Sources */,
 				DD5FA1EC15E2B020004EB6C5 /* RMLoadingTileView.m in Sources */,
+				2D91931C1DF9E02E00C608EA /* FICImageTableChunk.m in Sources */,
 				DD41960216250ED40049E6BA /* RMTileCacheDownloadOperation.m in Sources */,
 				DD4195CA162356900049E6BA /* RMBingSource.m in Sources */,
 				DD1E3C6F161F954F004FC649 /* SMCalloutView.m in Sources */,
