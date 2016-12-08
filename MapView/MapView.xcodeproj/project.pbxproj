@@ -72,6 +72,8 @@
 		2D91931F1DF9E02E00C608EA /* FICImports.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D9193101DF9E02E00C608EA /* FICImports.h */; };
 		2D9193201DF9E02E00C608EA /* FICUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D9193111DF9E02E00C608EA /* FICUtilities.h */; };
 		2D9193211DF9E02E00C608EA /* FICUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D9193121DF9E02E00C608EA /* FICUtilities.m */; };
+		2D91932F1DF9E25200C608EA /* RMFICache.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D91932D1DF9E25200C608EA /* RMFICache.h */; };
+		2D9193301DF9E25200C608EA /* RMFICache.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D91932E1DF9E25200C608EA /* RMFICache.m */; };
 		96492C400FA8AD3400EBA6D2 /* RMGlobalConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 96492C3F0FA8AD3400EBA6D2 /* RMGlobalConstants.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B1EB26C610B5D8E6009F8658 /* RMNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = B1EB26C510B5D8E6009F8658 /* RMNotifications.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B8474BA40EB40094006A0BC1 /* RMDatabaseCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B8474B980EB40094006A0BC1 /* RMDatabaseCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -284,6 +286,8 @@
 		2D9193101DF9E02E00C608EA /* FICImports.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FICImports.h; path = Map/FastImageCache/FICImports.h; sourceTree = "<group>"; };
 		2D9193111DF9E02E00C608EA /* FICUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FICUtilities.h; path = Map/FastImageCache/FICUtilities.h; sourceTree = "<group>"; };
 		2D9193121DF9E02E00C608EA /* FICUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FICUtilities.m; path = Map/FastImageCache/FICUtilities.m; sourceTree = "<group>"; };
+		2D91932D1DF9E25200C608EA /* RMFICache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMFICache.h; sourceTree = "<group>"; };
+		2D91932E1DF9E25200C608EA /* RMFICache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMFICache.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MapView_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		96492C3F0FA8AD3400EBA6D2 /* RMGlobalConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMGlobalConstants.h; sourceTree = "<group>"; };
 		B1EB26C510B5D8E6009F8658 /* RMNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMNotifications.h; sourceTree = "<group>"; };
@@ -579,6 +583,8 @@
 				B83E64D30E80E73F001663B6 /* RMMemoryCache.m */,
 				B8474B980EB40094006A0BC1 /* RMDatabaseCache.h */,
 				B8474B990EB40094006A0BC1 /* RMDatabaseCache.m */,
+				2D91932D1DF9E25200C608EA /* RMFICache.h */,
+				2D91932E1DF9E25200C608EA /* RMFICache.m */,
 			);
 			name = "Tile Cache";
 			sourceTree = "<group>";
@@ -856,6 +862,7 @@
 				DD56B9551961E23F00706C67 /* FMDatabaseQueue.h in Headers */,
 				DD98B6FA14D76B930092882F /* RMMapboxSource.h in Headers */,
 				1607499514E120A100D535F5 /* RMGenericMapSource.h in Headers */,
+				2D91932F1DF9E25200C608EA /* RMFICache.h in Headers */,
 				DDC4BED5152E3BD700089409 /* RMInteractiveSource.h in Headers */,
 				DD8FD7541559E4A40044D96F /* RMUserLocation.h in Headers */,
 				DDA6B8BD155CAB67003DB5D8 /* RMUserTrackingBarButtonItem.h in Headers */,
@@ -1078,6 +1085,7 @@
 				DDA6B8BE155CAB67003DB5D8 /* RMUserTrackingBarButtonItem.m in Sources */,
 				16F3581C15864135003A3AD9 /* RMMapScrollView.m in Sources */,
 				2D91931E1DF9E02E00C608EA /* FICImageTableEntry.m in Sources */,
+				2D9193301DF9E25200C608EA /* RMFICache.m in Sources */,
 				16F98C971590CFF000FF90CE /* RMShape.m in Sources */,
 				16FBF07715936BF1004ECAD1 /* RMTileSourcesContainer.m in Sources */,
 				161E563B1594664E00B00BB6 /* RMOpenSeaMapLayer.m in Sources */,
