@@ -109,15 +109,12 @@
     __block UIImage *imageCopy = [image copy];
     
     // Write to disk
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW,0), ^{
-        //NSLog(@"Store: %@", uuid);
-        
-        NSString *filePath = [self.directory stringByAppendingPathComponent:uuid];
-        NSData *imageData = UIImagePNGRepresentation(imageCopy);
-        [imageData writeToFile:filePath atomically:NO];
-        
-        [self.imageNameCache setObject:filePath forKey:uuid];
-    });
+    //NSLog(@"Store: %@", uuid);
+    NSString *filePath = [self.directory stringByAppendingPathComponent:uuid];
+    NSData *imageData = UIImagePNGRepresentation(imageCopy);
+    [imageData writeToFile:filePath atomically:NO];
+    
+    [self.imageNameCache setObject:filePath forKey:uuid];
 }
 
 - (void)cache:(NSCache *)cache willEvictObject:(id)obj
