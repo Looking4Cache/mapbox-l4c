@@ -30,6 +30,7 @@
 #import "RMTileCache.h"
 #import "RMMemoryCache.h"
 #import "RMDatabaseCache.h"
+#import "RMFastFileCache.h"
 
 #import "RMConfiguration.h"
 #import "RMTileSource.h"
@@ -42,6 +43,7 @@
 
 - (id <RMTileCache>)memoryCacheWithConfig:(NSDictionary *)cfg;
 - (id <RMTileCache>)databaseCacheWithConfig:(NSDictionary *)cfg;
+- (id <RMTileCache>)fastfileCacheWithConfig:(NSDictionary *)cfg;
 
 @end
 
@@ -81,8 +83,7 @@
     id cacheCfg = [[RMConfiguration sharedInstance] cacheConfiguration];
     if (!cacheCfg)
         cacheCfg = [NSArray arrayWithObjects:
-                    [NSDictionary dictionaryWithObject: @"memory-cache" forKey: @"type"],
-                    [NSDictionary dictionaryWithObject: @"db-cache"     forKey: @"type"],
+                    [NSDictionary dictionaryWithObject: @"ff-cache" forKey: @"type"],
                     nil];
     
     for (id cfg in cacheCfg)
@@ -101,6 +102,9 @@
             
             if ([@"db-cache" isEqualToString:type])
                 newCache = [self databaseCacheWithConfig:cfg];
+            
+            if ([@"ff-cache" isEqualToString:type])
+                newCache = [self fastfileCacheWithConfig:cfg];
             
             if (newCache)
                 [_tileCaches addObject:newCache];
@@ -631,6 +635,11 @@ static NSMutableDictionary *predicateValues = nil;
     [dbCache setExpiryPeriod:_expiryPeriod];
     
     return dbCache;
+}
+
+- (id <RMTileCache>)fastfileCacheWithConfig:(NSDictionary *)cfg
+{
+    return [RMFastFileCache sharedInstance];
 }
 
 @end

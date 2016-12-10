@@ -1,5 +1,5 @@
 //
-//  RMFICache.h
+//  RMFastFileCache.h
 //  MapView
 //
 //  Created by Thorsten Heilmann on 08.12.16.
@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "RMTileCache.h"
 
-@interface RMFICache : NSObject <RMTileCache>
+@interface RMFastFileCache : NSObject <RMTileCache, NSCacheDelegate>
+
++ (id)sharedInstance;
 
 @end
