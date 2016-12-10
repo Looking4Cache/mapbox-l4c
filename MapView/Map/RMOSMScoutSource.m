@@ -24,47 +24,46 @@
 
 - (UIImage *)imageForTile:(RMTile)tile inCache:(RMTileCache *)tileCache
 {
-    __block UIImage *image = nil;
     tile = [[self mercatorToTileProjection] normaliseTile:tile];
     
-    // Versuchen aus Cache zu ermitteln
-    image = [tileCache cachedImage:tile withCacheKey:[self uniqueTilecacheKey]];
-    if ( image )
-        return image;
-    
-    // Coordinate (Mitte des Tile) berechnen
-    RMProjectedRect planetBounds = self.projection.planetBounds;
-    double scale = (1<<tile.zoom);
-    double tileMetersPerPixel = planetBounds.size.width / (self.tileSideLength * scale);
-    double paddedTileSideLength = self.tileSideLength + (2.0 * kTileSidePadding);
-    CGPoint bottomLeft = CGPointMake((tile.x * self.tileSideLength) - kTileSidePadding,
-                                     ((scale - tile.y - 1) * self.tileSideLength) - kTileSidePadding);
-    double modifier = ( paddedTileSideLength * tileMetersPerPixel ) / 2;
-    double x = (bottomLeft.x * tileMetersPerPixel) - fabs(planetBounds.origin.x) + modifier;
-    double y = (bottomLeft.y * tileMetersPerPixel) - fabs(planetBounds.origin.y) + modifier;
-    CLLocationCoordinate2D coord = [self.projection projectedPointToCoordinate:RMProjectedPointMake(x,y)];
-    
-    // Tile berechnen
-    @try {
-        dispatch_sync(renderQueue, ^{
-            if ( [self.externalRenderer respondsToSelector:@selector(renderImageForCoordiante:scale:)] ) {
-                image = [self.externalRenderer renderImageForCoordiante:coord scale:scale];
-            } else if ( [self.externalRenderer respondsToSelector:@selector(renderImageForTile:)] ) {
-                image = [self.externalRenderer renderImageForTile:tile];
+    __block UIImage *image = nil;
+    dispatch_sync(renderQueue, ^{
+        // Versuchen aus Cache zu ermitteln
+        image = [tileCache cachedImage:tile withCacheKey:[self uniqueTilecacheKey]];
+        if ( !image ) {
+            // Tile berechnen
+            @try {
+                if ( [self.externalRenderer respondsToSelector:@selector(renderImageForTile:)] ) {
+                    // Neuer OSM-Scout
+                    image = [self.externalRenderer renderImageForTile:tile];
+                } else if ( [self.externalRenderer respondsToSelector:@selector(renderImageForCoordiante:scale:)] ) {
+                    // Coordinate (Mitte des Tile) berechnen
+                    RMProjectedRect planetBounds = self.projection.planetBounds;
+                    double scale = (1<<tile.zoom);
+                    double tileMetersPerPixel = planetBounds.size.width / (self.tileSideLength * scale);
+                    double paddedTileSideLength = self.tileSideLength + (2.0 * kTileSidePadding);
+                    CGPoint bottomLeft = CGPointMake((tile.x * self.tileSideLength) - kTileSidePadding,
+                                                     ((scale - tile.y - 1) * self.tileSideLength) - kTileSidePadding);
+                    double modifier = ( paddedTileSideLength * tileMetersPerPixel ) / 2;
+                    double x = (bottomLeft.x * tileMetersPerPixel) - fabs(planetBounds.origin.x) + modifier;
+                    double y = (bottomLeft.y * tileMetersPerPixel) - fabs(planetBounds.origin.y) + modifier;
+                    CLLocationCoordinate2D coord = [self.projection projectedPointToCoordinate:RMProjectedPointMake(x,y)];
+                    
+                    // Alter OSM-Scout
+                    image = [self.externalRenderer renderImageForCoordiante:coord scale:scale];
+                }
             }
-        });
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%@",exception);
-    }
-    
-    // Cachen
-    if ( image )
-        [tileCache addImage:image forTile:tile withCacheKey:[self uniqueTilecacheKey]];
-    
+            @catch (NSException *exception) {
+                NSLog(@"%@",exception);
+            }
+            
+            // Cachen
+            if ( image )
+                [tileCache addImage:image forTile:tile withCacheKey:[self uniqueTilecacheKey]];
+        }
+    });
     return image;
 }
-
 
 - (NSString *)uniqueTilecacheKey
 {
