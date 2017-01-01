@@ -3097,12 +3097,8 @@
                 [_visibleAnnotations addObject:annotation];
             }
 
-            // L4C : RMShape (Target-Linie) nicht animated verschieben
-            if ([annotation.layer isKindOfClass:[RMShape class]] ) {
-                [self correctScreenPosition:annotation animated:NO];
-            } else {
-                [self correctScreenPosition:annotation animated:YES];
-            }
+            // L4C : nicht animated verschieben
+            [self correctScreenPosition:annotation animated:NO];
             //[self correctScreenPosition:annotation animated:YES];
 
             [previousVisibleAnnotations removeObject:annotation];

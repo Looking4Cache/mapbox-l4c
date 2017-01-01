@@ -28,6 +28,7 @@
 #import "RMCircle.h"
 #import "RMProjection.h"
 #import "RMMapView.h"
+#import <MapKit/MapKit.h>
 
 #define kDefaultLineWidth 2.0
 #define kDefaultLineColor [UIColor blackColor]
@@ -87,8 +88,8 @@
 
     CGMutablePathRef newPath = CGPathCreateMutable();
 
-    CGFloat latRadians = [[mapView projection] projectedPointToCoordinate:projectedLocation].latitude * M_PI / 180.0f;
-    CGFloat pixelRadius = radiusInMeters / cos(latRadians) / [mapView metersPerPixel];
+    double factor = MKMapPointsPerMeterAtLatitude ( self.latitude ) / 6.743553;
+    CGFloat pixelRadius = radiusInMeters / ( [mapView metersPerPixel] / factor );
     //	DLog(@"Pixel Radius: %f", pixelRadius);
 
     CGRect rectangle = CGRectMake(self.position.x - pixelRadius,

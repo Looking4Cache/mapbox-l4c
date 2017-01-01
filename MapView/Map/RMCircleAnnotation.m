@@ -54,9 +54,11 @@
 
 - (RMMapLayer *)layer
 {
-    if ( ! [super layer])
-        super.layer = [[RMCircle alloc] initWithView:self.mapView radiusInMeters:_radiusInMeters];
-    
+    if ( ! [super layer]) {
+        RMCircle *circle = [[RMCircle alloc] initWithView:self.mapView radiusInMeters:_radiusInMeters];
+        circle.latitude = self.centerCoordinate.latitude;
+        super.layer = circle;
+    }
     return [super layer];
 }
 

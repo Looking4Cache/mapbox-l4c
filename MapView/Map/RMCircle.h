@@ -66,6 +66,9 @@
 /** The circle's line width. Defaults to 2.0. */
 @property (nonatomic, assign) CGFloat lineWidthInPixels;
 
+/** The latitude, needed for radius calculation */
+@property (nonatomic, assign) CGFloat latitude;
+
 /** @name Creating Circle Objects */
 
 /** Initializes and returns a newly allocated RMCircle for the specified map view.
