@@ -30,9 +30,9 @@
 #import "RMMapView.h"
 #import <MapKit/MapKit.h>
 
-#define kDefaultLineWidth 2.0
+#define kDefaultLineWidth 0.25
 #define kDefaultLineColor [UIColor blackColor]
-#define kDefaultFillColor [UIColor colorWithRed:0 green:0 blue:1.0 alpha:0.25]
+#define kDefaultFillColor [UIColor colorWithRed:0 green:0.5 blue:1.0 alpha:0.25]
 
 @interface RMCircle ()
 
