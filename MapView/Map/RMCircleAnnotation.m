@@ -33,14 +33,15 @@
 @implementation RMCircleAnnotation
 
 @synthesize radiusInMeters=_radiusInMeters;
+@synthesize lineDashed=_lineDashed;
 
 - (id)initWithMapView:(RMMapView *)aMapView centerCoordinate:(CLLocationCoordinate2D)centerCoordinate radiusInMeters:(CGFloat)radiusInMeters
 {
     if (!(self = [super initWithMapView:aMapView points:[NSArray arrayWithObject:[[CLLocation alloc] initWithLatitude:centerCoordinate.latitude longitude:centerCoordinate.longitude]]]))
         return nil;
-
+    
     _radiusInMeters = radiusInMeters;
-
+    
     return self;
 }
 
@@ -59,6 +60,7 @@
         circle.latitude = self.centerCoordinate.latitude;
         super.layer = circle;
     }
+    
     return [super layer];
 }
 
@@ -85,6 +87,17 @@
 - (CGFloat)lineWidth
 {
     return [self lineWidthInPixels];
+}
+
+- (BOOL)lineDashed
+{
+    return [self lineDashed];
+}
+
+- (void)setLineDashed:(BOOL)lineDashed
+{
+    _lineDashed = lineDashed;
+    [(RMCircle *)[self layer] setLineDashed:lineDashed];
 }
 
 - (void)setRadiusInMeters:(CGFloat)radiusInMeters

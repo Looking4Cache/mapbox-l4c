@@ -34,16 +34,16 @@
 /** An RMCircle is used to represent a perfect circle shape on a map view. An RMCircle changes visible size in response to map zooms in order to consistently represent coverage of the same geographic area. */
 @interface RMCircle : RMMapLayer
 {
-	RMMapView *mapView;
-	CAShapeLayer *shapeLayer;
-
-	UIColor *lineColor;
-	UIColor *fillColor;
-	CGFloat radiusInMeters;
-	CGFloat lineWidthInPixels;
-	BOOL scaleLineWidth;
-
-	CGMutablePathRef circlePath;
+    RMMapView *mapView;
+    CAShapeLayer *shapeLayer;
+    
+    UIColor *lineColor;
+    UIColor *fillColor;
+    CGFloat radiusInMeters;
+    CGFloat lineWidthInPixels;
+    BOOL scaleLineWidth;
+    
+    CGMutablePathRef circlePath;
 }
 
 /** @name Accessing Drawing Properties */
@@ -66,14 +66,17 @@
 /** The circle's line width. Defaults to 2.0. */
 @property (nonatomic, assign) CGFloat lineWidthInPixels;
 
+/** Draw the line dashed. Defaults to NO. */
+@property (nonatomic, assign) BOOL lineDashed;
+
 /** The latitude, needed for radius calculation */
 @property (nonatomic, assign) CGFloat latitude;
 
 /** @name Creating Circle Objects */
 
 /** Initializes and returns a newly allocated RMCircle for the specified map view.
-*   @param aMapView The map view the shape should be drawn on.
-*   @param newRadiusInMeters The radius of the circle object in projected meters. Regardless of map zoom, the circle will change visible size to continously represent this radius on the map. */
+ *   @param aMapView The map view the shape should be drawn on.
+ *   @param newRadiusInMeters The radius of the circle object in projected meters. Regardless of map zoom, the circle will change visible size to continously represent this radius on the map. */
 - (id)initWithView:(RMMapView *)aMapView radiusInMeters:(CGFloat)newRadiusInMeters;
 
 @end

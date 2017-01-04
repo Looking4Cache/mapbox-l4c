@@ -29,15 +29,15 @@
 #import "RMShapeAnnotation.h"
 
 /** An RMCircleAnnotation is a concrete subclass of RMShapeAnnotation that is used to represent a circle shape on the map. The annotation will automatically have a layer created when needed that displays an RMCircle.
-*
-*   If you wish to customize the layer appearance in more detail, you should instead create an RMAnnotation and configure its layer directly. Providing a layer manually for instances of RMCircleAnnotation will not have any effect. */
+ *
+ *   If you wish to customize the layer appearance in more detail, you should instead create an RMAnnotation and configure its layer directly. Providing a layer manually for instances of RMCircleAnnotation will not have any effect. */
 @interface RMCircleAnnotation : RMShapeAnnotation
 
 /** Initialize a circle annotation.
-*   @param aMapView The map view on which to place the annotation.
-*   @param centerCoordinate The center of the annotation. 
-*   @param radiusInMeters The radius of the circle in projected meters.
-*   @return An initialized circle annotation object, or `nil` if an annotation was unable to be initialized. */
+ *   @param aMapView The map view on which to place the annotation.
+ *   @param centerCoordinate The center of the annotation.
+ *   @param radiusInMeters The radius of the circle in projected meters.
+ *   @return An initialized circle annotation object, or `nil` if an annotation was unable to be initialized. */
 - (id)initWithMapView:(RMMapView *)aMapView centerCoordinate:(CLLocationCoordinate2D)centerCoordinate radiusInMeters:(CGFloat)radiusInMeters;
 
 /** The circle annotation's center coordinate. */
@@ -48,5 +48,8 @@
 
 /** The radius of the circle annotation in projected meters. Regardless of map zoom, the circle will change visible size to continously represent this radius on the map. */
 @property (nonatomic, assign) CGFloat radiusInMeters;
+
+/** Draw the line dashed. Defaults to NO. */
+@property (nonatomic, assign) BOOL lineDashed;
 
 @end

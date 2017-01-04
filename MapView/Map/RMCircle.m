@@ -54,24 +54,24 @@
 {
     if (!(self = [super init]))
         return nil;
-
+    
     shapeLayer = [CAShapeLayer new];
     [self addSublayer:shapeLayer];
-
+    
     mapView = aMapView;
     radiusInMeters = newRadiusInMeters;
-
+    
     lineWidthInPixels = kDefaultLineWidth;
     lineColor = kDefaultLineColor;
     fillColor = kDefaultFillColor;
-
+    
     scaleLineWidth = NO;
-
+    
     circlePath = NULL;
     [self updateCirclePathAnimated:NO];
-
+    
     self.masksToBounds = NO;
-
+    
     return self;
 }
 
@@ -85,47 +85,51 @@
 - (void)updateCirclePathAnimated:(BOOL)animated
 {
     CGPathRelease(circlePath); circlePath = NULL;
-
+    
     CGMutablePathRef newPath = CGPathCreateMutable();
-
+    
     double factor = MKMapPointsPerMeterAtLatitude ( self.latitude ) / 6.743553;
-    CGFloat pixelRadius = radiusInMeters / ( [mapView metersPerPixel] / factor );
-    //	DLog(@"Pixel Radius: %f", pixelRadius);
-
+    double pixelRadius = radiusInMeters / ( [mapView metersPerPixel] / factor );
+    
     CGRect rectangle = CGRectMake(self.position.x - pixelRadius,
                                   self.position.y - pixelRadius,
                                   (pixelRadius * 2),
                                   (pixelRadius * 2));
-
+    
     CGFloat offset = floorf(-lineWidthInPixels / 2.0f) - 2;
     CGRect newBoundsRect = CGRectInset(rectangle, offset, offset);
-
+    
     [self setBounds:newBoundsRect];
-
+    
     //	DLog(@"Circle Rectangle: %f, %f, %f, %f", rectangle.origin.x, rectangle.origin.y, rectangle.size.width, rectangle.size.height);
     //	DLog(@"Bounds Rectangle: %f, %f, %f, %f", self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width, self.bounds.size.height);
-
+    
     CGPathAddEllipseInRect(newPath, NULL, rectangle);
     circlePath = newPath;
-
+    
     // animate the path change if we're in an animation block
     //
     if (animated)
     {
         CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
-
+        
         pathAnimation.duration  = [CATransaction animationDuration];
         pathAnimation.fromValue = [NSValue valueWithPointer:self.shapeLayer.path];
         pathAnimation.toValue   = [NSValue valueWithPointer:newPath];
-
+        
         [self.shapeLayer addAnimation:pathAnimation forKey:@"animatePath"];
     }
-
+    
     [self.shapeLayer setPath:newPath];
     [self.shapeLayer setFillColor:[fillColor CGColor]];
     [self.shapeLayer setStrokeColor:[lineColor CGColor]];
     [self.shapeLayer setLineWidth:lineWidthInPixels];
-
+    if ( self.lineDashed ) {
+        [self.shapeLayer setLineDashPattern:@[[NSNumber numberWithFloat:2.0f], [NSNumber numberWithFloat:2.0f]]];
+    } else {
+        [self.shapeLayer setLineDashPattern:nil];
+    }
+    
     if (self.fillPatternImage)
         self.shapeLayer.fillColor = [[UIColor colorWithPatternImage:self.fillPatternImage] CGColor];
 }
@@ -135,7 +139,7 @@
 - (BOOL)containsPoint:(CGPoint)thePoint
 {
     BOOL containsPoint = NO;
-
+    
     if ([self.fillColor isEqual:[UIColor clearColor]])
     {
         // if shape is not filled with a color, do a simple "point on path" test
@@ -151,7 +155,7 @@
         //
         containsPoint = CGPathContainsPoint(shapeLayer.path, nil, thePoint, [shapeLayer.fillRule isEqualToString:kCAFillRuleEvenOdd]);
     }
-
+    
     return containsPoint;
 }
 
@@ -177,7 +181,7 @@
 {
     if (fillPatternImage)
         self.fillColor = nil;
-
+    
     if (_fillPatternImage != fillPatternImage)
     {
         _fillPatternImage = fillPatternImage;
@@ -200,8 +204,14 @@
 - (void)setPosition:(CGPoint)position animated:(BOOL)animated
 {
     [self setPosition:position];
-
+    
     [self updateCirclePathAnimated:animated];
+}
+
+- (void)setLineDashed:(BOOL)lineDashed
+{
+    _lineDashed = lineDashed;
+    [self updateCirclePathAnimated:NO];
 }
 
 @end
