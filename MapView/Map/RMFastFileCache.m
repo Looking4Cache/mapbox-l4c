@@ -105,13 +105,10 @@
         return;
     }
     
-    // Create copy of image
-    __block UIImage *imageCopy = [image copy];
-    
     // Write to disk
     //NSLog(@"Store: %@", uuid);
     NSString *filePath = [self.directory stringByAppendingPathComponent:uuid];
-    NSData *imageData = UIImagePNGRepresentation(imageCopy);
+    NSData *imageData = UIImagePNGRepresentation(image);
     [imageData writeToFile:filePath atomically:NO];
     
     [self.imageNameCache setObject:filePath forKey:uuid];
