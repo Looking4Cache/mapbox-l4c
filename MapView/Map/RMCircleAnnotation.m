@@ -58,6 +58,7 @@
     if ( ! [super layer]) {
         RMCircle *circle = [[RMCircle alloc] initWithView:self.mapView radiusInMeters:_radiusInMeters];
         circle.latitude = self.centerCoordinate.latitude;
+        circle.lineDashed = self.lineDashed;
         super.layer = circle;
     }
     
@@ -91,7 +92,7 @@
 
 - (BOOL)lineDashed
 {
-    return [self lineDashed];
+    return _lineDashed;
 }
 
 - (void)setLineDashed:(BOOL)lineDashed
