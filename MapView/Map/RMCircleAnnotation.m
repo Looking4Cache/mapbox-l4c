@@ -30,9 +30,14 @@
 
 #import "RMCircle.h"
 
+#define kDefaultLineColor [UIColor blackColor]
+#define kDefaultFillColor [UIColor colorWithRed:0 green:0.5 blue:1.0 alpha:0.25]
+
 @implementation RMCircleAnnotation
 
 @synthesize radiusInMeters=_radiusInMeters;
+@synthesize lineColor=_lineColor;
+@synthesize fillColor=_fillColor;
 @synthesize lineDashed=_lineDashed;
 
 - (id)initWithMapView:(RMMapView *)aMapView centerCoordinate:(CLLocationCoordinate2D)centerCoordinate radiusInMeters:(CGFloat)radiusInMeters
@@ -41,6 +46,9 @@
         return nil;
     
     _radiusInMeters = radiusInMeters;
+    
+    self.lineColor = kDefaultLineColor;
+    self.fillColor = kDefaultFillColor;
     
     return self;
 }
@@ -58,6 +66,8 @@
     if ( ! [super layer]) {
         RMCircle *circle = [[RMCircle alloc] initWithView:self.mapView radiusInMeters:_radiusInMeters];
         circle.latitude = self.centerCoordinate.latitude;
+        circle.fillColor = self.fillColor;
+        circle.lineColor = self.lineColor;
         circle.lineDashed = self.lineDashed;
         super.layer = circle;
     }
@@ -90,6 +100,28 @@
     return [self lineWidthInPixels];
 }
 
+- (UIColor *)lineColor
+{
+    return _lineColor;
+}
+
+- (void)setLineColor:(UIColor *)lineColor
+{
+    _lineColor = lineColor;
+    [(RMCircle *)[self layer] setLineColor:lineColor];
+}
+
+- (UIColor *)fillColor
+{
+    return _fillColor;
+}
+
+- (void)setFillColor:(UIColor *)fillColor
+{
+    _fillColor = fillColor;
+    [(RMCircle *)[self layer] setFillColor:fillColor];
+}
+
 - (BOOL)lineDashed
 {
     return _lineDashed;
@@ -100,6 +132,7 @@
     _lineDashed = lineDashed;
     [(RMCircle *)[self layer] setLineDashed:lineDashed];
 }
+
 
 - (void)setRadiusInMeters:(CGFloat)radiusInMeters
 {

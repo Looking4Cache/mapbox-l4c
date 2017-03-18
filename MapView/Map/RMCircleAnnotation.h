@@ -49,6 +49,12 @@
 /** The radius of the circle annotation in projected meters. Regardless of map zoom, the circle will change visible size to continously represent this radius on the map. */
 @property (nonatomic, assign) CGFloat radiusInMeters;
 
+/** The circle's line color. Defaults to black. */
+@property (nonatomic, strong) UIColor *lineColor;
+
+/** The circle's fill color. Defaults to blue with a 25% alpha value. */
+@property (nonatomic, strong) UIColor *fillColor;
+
 /** Draw the line dashed. Defaults to NO. */
 @property (nonatomic, assign) BOOL lineDashed;
 
