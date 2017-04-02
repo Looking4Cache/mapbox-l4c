@@ -59,6 +59,8 @@
 		2D62024D1B119E0B00FAF5D3 /* RMStaticOverlayControlView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D6202421B119E0B00FAF5D3 /* RMStaticOverlayControlView.h */; };
 		2D91932F1DF9E25200C608EA /* RMFastFileCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D91932D1DF9E25200C608EA /* RMFastFileCache.h */; };
 		2D9193301DF9E25200C608EA /* RMFastFileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D91932E1DF9E25200C608EA /* RMFastFileCache.m */; };
+		2DEC41481E9171D5000CE77E /* OSCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DEC41461E9171D5000CE77E /* OSCache.h */; };
+		2DEC41491E9171D5000CE77E /* OSCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DEC41471E9171D5000CE77E /* OSCache.m */; };
 		96492C400FA8AD3400EBA6D2 /* RMGlobalConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 96492C3F0FA8AD3400EBA6D2 /* RMGlobalConstants.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B1EB26C610B5D8E6009F8658 /* RMNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = B1EB26C510B5D8E6009F8658 /* RMNotifications.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		B8474BA40EB40094006A0BC1 /* RMDatabaseCache.h in Headers */ = {isa = PBXBuildFile; fileRef = B8474B980EB40094006A0BC1 /* RMDatabaseCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -258,6 +260,8 @@
 		2D6202421B119E0B00FAF5D3 /* RMStaticOverlayControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMStaticOverlayControlView.h; sourceTree = "<group>"; };
 		2D91932D1DF9E25200C608EA /* RMFastFileCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMFastFileCache.h; sourceTree = "<group>"; };
 		2D91932E1DF9E25200C608EA /* RMFastFileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMFastFileCache.m; sourceTree = "<group>"; };
+		2DEC41461E9171D5000CE77E /* OSCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSCache.h; sourceTree = "<group>"; };
+		2DEC41471E9171D5000CE77E /* OSCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSCache.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MapView_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		96492C3F0FA8AD3400EBA6D2 /* RMGlobalConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMGlobalConstants.h; sourceTree = "<group>"; };
 		B1EB26C510B5D8E6009F8658 /* RMNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMNotifications.h; sourceTree = "<group>"; };
@@ -533,6 +537,8 @@
 				B8474B990EB40094006A0BC1 /* RMDatabaseCache.m */,
 				2D91932D1DF9E25200C608EA /* RMFastFileCache.h */,
 				2D91932E1DF9E25200C608EA /* RMFastFileCache.m */,
+				2DEC41461E9171D5000CE77E /* OSCache.h */,
+				2DEC41471E9171D5000CE77E /* OSCache.m */,
 			);
 			name = "Tile Cache";
 			sourceTree = "<group>";
@@ -819,6 +825,7 @@
 				DDE357E71651F570001DB842 /* RMPointAnnotation.h in Headers */,
 				B8C974220E8A19B2007D16AD /* RMProjection.h in Headers */,
 				DDE357F0165223A3001DB842 /* RMShapeAnnotation.h in Headers */,
+				2DEC41481E9171D5000CE77E /* OSCache.h in Headers */,
 				DDE357F416522661001DB842 /* RMPolylineAnnotation.h in Headers */,
 				DDE357F816522CD8001DB842 /* RMPolygonAnnotation.h in Headers */,
 				DD1985C1165C5F6400DF667F /* RMTileMillSource.h in Headers */,
@@ -1002,6 +1009,7 @@
 				16EC85D7133CA6C300219947 /* RMCacheObject.m in Sources */,
 				160EEDB013D41DEC007C5501 /* RMAnnotation.m in Sources */,
 				1606C9FF13D86BA400547581 /* RMOpenCycleMapSource.m in Sources */,
+				2DEC41491E9171D5000CE77E /* OSCache.m in Sources */,
 				16FAB66513E03D55002F4E1C /* RMQuadTree.m in Sources */,
 				160E535813FBDB48004F82F9 /* RMMapTiledLayerView.m in Sources */,
 				1609AF8F14068B09008344B7 /* RMMapOverlayView.m in Sources */,

@@ -7,12 +7,13 @@
 //
 
 #import "RMFastFileCache.h"
+#import "OSCache.h"
 #import <CommonCrypto/CommonDigest.h>
 
 @interface RMFastFileCache ()
 @property (strong, nonatomic) NSString *directory;
-@property (strong, nonatomic) NSCache *imageNameCache;
-@property (strong, nonatomic) NSCache *lastImageCache;
+@property (strong, nonatomic) OSCache *imageNameCache;
+@property (strong, nonatomic) OSCache *lastImageCache;
 @end
 
 @implementation RMFastFileCache
@@ -36,7 +37,7 @@
         [[NSFileManager defaultManager] createDirectoryAtPath:self.directory withIntermediateDirectories:YES attributes:nil error:nil];
         
         // NSCache containing the filenames that are already stored
-        self.imageNameCache = [[NSCache alloc] init];
+        self.imageNameCache = [[OSCache alloc] init];
         self.imageNameCache.countLimit = 250;
         self.imageNameCache.totalCostLimit = 60000;
         self.imageNameCache.evictsObjectsWithDiscardedContent = NO;
@@ -46,7 +47,7 @@
         [self loadCurrentCachedFiles];
         
         // NSCache containing the last used images (if AdjustForRetinaDisplay is YES, each image will be requested four times)
-        self.lastImageCache = [[NSCache alloc] init];
+        self.lastImageCache = [[OSCache alloc] init];
         self.lastImageCache.countLimit = 10;
     }
     return self;
