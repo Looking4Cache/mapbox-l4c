@@ -38,6 +38,8 @@
         // NSCache containing the filenames that are already stored
         self.imageNameCache = [[NSCache alloc] init];
         self.imageNameCache.countLimit = 250;
+        self.imageNameCache.totalCostLimit = 60000;
+        self.imageNameCache.evictsObjectsWithDiscardedContent = NO;
         self.imageNameCache.delegate = self;
         
         // Load the filenames already stored from the last sessions
@@ -64,54 +66,64 @@
     
     // Try to load from the memory cache
     if ( !shouldBypassMemoryCache ) {
-        image = [self.lastImageCache objectForKey:uuid];
-        if ( image ) {
-            //NSLog(@"Loaded from memory: %@", uuid);
-            return image;
+        @synchronized (self.lastImageCache) {
+            image = [self.lastImageCache objectForKey:uuid];
+            if ( image ) {
+                //NSLog(@"Loaded from memory: %@", uuid);
+                return image;
+            }
         }
     }
     
     // Try to load from the disk
-    NSString *filePath = [self.imageNameCache objectForKey:uuid];
-    if ( filePath ) {
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        if ( [fileManager fileExistsAtPath:filePath] ) {
-            image = [UIImage imageWithContentsOfFile:filePath];
-            //NSLog(@"Loaded: %@", uuid);
-            
-            // Store in memory cache (maybe reqsted several times
-            if ( !shouldBypassMemoryCache ) {
-                if ( ![self.lastImageCache objectForKey:uuid] ) {
-                    [self.lastImageCache setObject:image forKey:uuid];
+    @synchronized (self.imageNameCache) {
+        NSString *filePath = [self.imageNameCache objectForKey:uuid];
+        if ( filePath ) {
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            if ( [fileManager fileExistsAtPath:filePath] ) {
+                image = [UIImage imageWithContentsOfFile:filePath];
+                //NSLog(@"Loaded: %@", uuid);
+                
+                // Store in memory cache (maybe reqsted several times
+                if ( !shouldBypassMemoryCache ) {
+                    if ( ![self.lastImageCache objectForKey:uuid] ) {
+                        [self.lastImageCache setObject:image forKey:uuid];
+                    }
                 }
             }
         }
     }
+    
     return image;
 }
 
 - (void)addImage:(UIImage *)image forTile:(RMTile)tile withCacheKey:(NSString *)cacheKey
 {
-    __block NSString *uuid = [self uuidForTile:tile withCacheKey:cacheKey];
+    NSString *uuid = [self uuidForTile:tile withCacheKey:cacheKey];
     
-    // Store in memory cache
-    if ( ![self.lastImageCache objectForKey:uuid] ) {
-        [self.lastImageCache setObject:image forKey:uuid];
+    @synchronized (self.lastImageCache) {
+        // Store in memory cache
+        if ( ![self.lastImageCache objectForKey:uuid] ) {
+            [self.lastImageCache setObject:image forKey:uuid];
+        }
     }
     
-    // Already stored on disk?
-    if ( [self.imageNameCache objectForKey:uuid] ) {
-        //NSLog(@"Skip store of %@", uuid);
-        return;
+    @synchronized (self.imageNameCache) {
+        // Already stored on disk?
+        if ( [self.imageNameCache objectForKey:uuid] ) {
+            //NSLog(@"Skip store of %@", uuid);
+            return;
+        }
+        
+        // Write to disk
+        //NSLog(@"Store: %@", uuid);
+        NSString *filePath = [self.directory stringByAppendingPathComponent:uuid];
+        NSData *imageData = UIImagePNGRepresentation(image);
+        [imageData writeToFile:filePath atomically:NO];
+        
+        // Add to cache object
+        [self.imageNameCache setObject:filePath forKey:uuid cost:0];
     }
-    
-    // Write to disk
-    //NSLog(@"Store: %@", uuid);
-    NSString *filePath = [self.directory stringByAppendingPathComponent:uuid];
-    NSData *imageData = UIImagePNGRepresentation(image);
-    [imageData writeToFile:filePath atomically:NO];
-    
-    [self.imageNameCache setObject:filePath forKey:uuid];
 }
 
 - (void)cache:(NSCache *)cache willEvictObject:(id)obj
@@ -120,7 +132,7 @@
     if ( [cache isEqual:self.imageNameCache] ) {
         __block NSString *filePath = [(NSString *)obj copy];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW,0), ^{
-            //NSLog(@"Delete: %@", filePath);
+            //NSLog(@"Delete: %lu, %@", (unsigned long)cache.countLimit, filePath);
             NSFileManager *fileManager = [NSFileManager defaultManager];
             [fileManager removeItemAtPath:filePath error:nil];
         });
