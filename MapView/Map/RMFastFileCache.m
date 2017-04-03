@@ -86,9 +86,11 @@
                 //NSLog(@"Loaded: %@", uuid);
                 
                 // Store in memory cache (maybe reqsted several times
-                if ( !shouldBypassMemoryCache ) {
-                    if ( ![self.lastImageCache objectForKey:uuid] ) {
-                        [self.lastImageCache setObject:image forKey:uuid];
+                if ( image ) {
+                    if ( !shouldBypassMemoryCache ) {
+                        if ( ![self.lastImageCache objectForKey:uuid] ) {
+                            [self.lastImageCache setObject:image forKey:uuid];
+                        }
                     }
                 }
             }
