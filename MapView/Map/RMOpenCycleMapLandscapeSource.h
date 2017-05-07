@@ -29,4 +29,6 @@
 
 @interface RMOpenCycleMapLandscapeSource : RMAbstractWebMapSource
 
+@property (strong, nonatomic) NSString *apiKey;
+
 @end

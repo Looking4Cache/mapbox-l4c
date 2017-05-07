@@ -46,7 +46,7 @@
 			  @"%@ tried to retrieve tile with zoomLevel %d, outside source's defined range %f to %f", 
 			  self, tile.zoom, self.minZoom, self.maxZoom);
 
-	return [NSURL URLWithString:[NSString stringWithFormat:@"http://tile.opencyclemap.org/cycle/%d/%d/%d.png", tile.zoom, tile.x, tile.y]];
+    return [NSURL URLWithString:[NSString stringWithFormat:@"https://tile.thunderforest.com/cycle/%d/%d/%d.png?apikey=%@", tile.zoom, tile.x, tile.y, self.apiKey]];
 }
 
 - (NSString *)uniqueTilecacheKey
