@@ -46,6 +46,7 @@
 		23A0AAEB0EB90AA6003A4521 /* RMFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 23A0AAEA0EB90AA6003A4521 /* RMFoundation.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		25757F4F1291C8640083D504 /* RMCircle.h in Headers */ = {isa = PBXBuildFile; fileRef = 25757F4D1291C8640083D504 /* RMCircle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		25757F501291C8640083D504 /* RMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 25757F4E1291C8640083D504 /* RMCircle.m */; };
+		2D51F3DA1ECF840400AD95E1 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D51F3D91ECF840400AD95E1 /* ImageIO.framework */; };
 		2D6202431B119E0B00FAF5D3 /* RMCustomMapView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D6202381B119E0B00FAF5D3 /* RMCustomMapView.h */; };
 		2D6202441B119E0B00FAF5D3 /* RMCustomMapViewSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D6202391B119E0B00FAF5D3 /* RMCustomMapViewSource.h */; };
 		2D6202451B119E0B00FAF5D3 /* RMCustomMapViewSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D62023A1B119E0B00FAF5D3 /* RMCustomMapViewSource.m */; };
@@ -247,6 +248,7 @@
 		25757F4D1291C8640083D504 /* RMCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMCircle.h; sourceTree = "<group>"; };
 		25757F4E1291C8640083D504 /* RMCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMCircle.m; sourceTree = "<group>"; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2D51F3D91ECF840400AD95E1 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		2D6202381B119E0B00FAF5D3 /* RMCustomMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMCustomMapView.h; sourceTree = "<group>"; };
 		2D6202391B119E0B00FAF5D3 /* RMCustomMapViewSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMCustomMapViewSource.h; sourceTree = "<group>"; };
 		2D62023A1B119E0B00FAF5D3 /* RMCustomMapViewSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMCustomMapViewSource.m; sourceTree = "<group>"; };
@@ -395,6 +397,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D51F3DA1ECF840400AD95E1 /* ImageIO.framework in Frameworks */,
 				B8C974500E8A19B2007D16AD /* CoreFoundation.framework in Frameworks */,
 				B8C974510E8A19B2007D16AD /* CoreGraphics.framework in Frameworks */,
 				B8C974520E8A19B2007D16AD /* CoreLocation.framework in Frameworks */,
@@ -476,6 +479,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2D51F3D91ECF840400AD95E1 /* ImageIO.framework */,
 				B83E65590E80E7EB001663B6 /* CoreFoundation.framework */,
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
 				B83E65630E80E81C001663B6 /* CoreLocation.framework */,

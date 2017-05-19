@@ -9,6 +9,8 @@
 #import "RMFastFileCache.h"
 #import "OSCache.h"
 #import <CommonCrypto/CommonDigest.h>
+#import <ImageIO/ImageIO.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
 @interface RMFastFileCache ()
 @property (strong, nonatomic) NSString *directory;
@@ -121,11 +123,18 @@
         // Write to disk
         //NSLog(@"Store: %@", uuid);
         NSString *filePath = [self.directory stringByAppendingPathComponent:uuid];
-        NSData *imageData = UIImagePNGRepresentation(image);
-        [imageData writeToFile:filePath atomically:NO];
         
-        // Add to cache object
-        [self.imageNameCache setObject:filePath forKey:uuid cost:0];
+        // Write as PNG file
+        CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:filePath];
+        CGImageDestinationRef destination = CGImageDestinationCreateWithURL(url, kUTTypePNG, 1, NULL);
+        if (destination) {
+            CGImageDestinationAddImage(destination, image.CGImage, nil);
+            if (CGImageDestinationFinalize(destination)) {
+                // Add path to cache object
+                [self.imageNameCache setObject:filePath forKey:uuid cost:0];
+            }
+            CFRelease(destination);
+        }
     }
 }
 
