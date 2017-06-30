@@ -3612,27 +3612,27 @@
 {
     if ( ! _showsUserLocation || _mapScrollView.isDragging || ! newLocation || ! CLLocationCoordinate2DIsValid(newLocation.coordinate))
         return;
-
+    
     if ([newLocation distanceFromLocation:oldLocation])
     {
         self.userLocation.location = newLocation;
-
+        
         if (_delegateHasDidUpdateUserLocation)
         {
             [_delegate mapView:self didUpdateUserLocation:self.userLocation];
-
+            
             if ( ! _showsUserLocation)
                 return;
         }
     }
-
+    
     if (self.userTrackingMode != RMUserTrackingModeNone)
     {
         // center on user location unless we're already centered there (or very close)
         //
         CGPoint mapCenterPoint    = [self convertPoint:self.center fromView:self.superview];
         CGPoint userLocationPoint = [self mapPositionForAnnotation:self.userLocation];
-
+        
         if (fabsf(userLocationPoint.x - mapCenterPoint.x) > 1.0 || fabsf(userLocationPoint.y - mapCenterPoint.y) > 1.0)
         {
             if (round(_zoom) >= 10)
@@ -3646,18 +3646,18 @@
                 // otherwise re-center and zoom in to near accuracy confidence
                 //
                 float delta = (newLocation.horizontalAccuracy / 110000) * 1.2; // approx. meter per degree latitude, plus some margin
-
+                
                 CLLocationCoordinate2D desiredSouthWest = CLLocationCoordinate2DMake(newLocation.coordinate.latitude  - delta,
                                                                                      newLocation.coordinate.longitude - delta);
-
+                
                 CLLocationCoordinate2D desiredNorthEast = CLLocationCoordinate2DMake(newLocation.coordinate.latitude  + delta,
                                                                                      newLocation.coordinate.longitude + delta);
-
+                
                 CGFloat pixelRadius = fminf(self.bounds.size.width, self.bounds.size.height) / 2;
-
+                
                 CLLocationCoordinate2D actualSouthWest = [self pixelToCoordinate:CGPointMake(userLocationPoint.x - pixelRadius, userLocationPoint.y - pixelRadius)];
                 CLLocationCoordinate2D actualNorthEast = [self pixelToCoordinate:CGPointMake(userLocationPoint.x + pixelRadius, userLocationPoint.y + pixelRadius)];
-
+                
                 if (desiredNorthEast.latitude  != actualNorthEast.latitude  ||
                     desiredNorthEast.longitude != actualNorthEast.longitude ||
                     desiredSouthWest.latitude  != actualSouthWest.latitude  ||
@@ -3668,9 +3668,9 @@
             }
         }
     }
-
+    
     // L4C
-    /*
+    
     if ( ! _accuracyCircleAnnotation)
     {
         _accuracyCircleAnnotation = [RMAnnotation annotationWithMapView:self coordinate:newLocation.coordinate andTitle:nil];
@@ -3679,15 +3679,15 @@
         _accuracyCircleAnnotation.enabled = NO;
         _accuracyCircleAnnotation.layer = [[RMCircle alloc] initWithView:self radiusInMeters:newLocation.horizontalAccuracy];
         _accuracyCircleAnnotation.isUserLocationAnnotation = YES;
-
+        
         ((RMCircle *)_accuracyCircleAnnotation.layer).lineColor = (RMPreVersion7 ? [UIColor colorWithRed:0.378 green:0.552 blue:0.827 alpha:0.7] : [UIColor clearColor]);
         ((RMCircle *)_accuracyCircleAnnotation.layer).fillColor = (RMPreVersion7 ? [UIColor colorWithRed:0.378 green:0.552 blue:0.827 alpha:0.15] : [self.tintColor colorWithAlphaComponent:0.1]);
-
+        
         ((RMCircle *)_accuracyCircleAnnotation.layer).lineWidthInPixels = 2.0;
-
+        
         [self addAnnotation:_accuracyCircleAnnotation];
     }
-
+    
     if ( ! oldLocation)
     {
         // make accuracy circle bounce until we get our second update
@@ -3695,44 +3695,44 @@
         [CATransaction begin];
         [CATransaction setAnimationDuration:0.75];
         [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-
+        
         CABasicAnimation *bounceAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
         bounceAnimation.repeatCount = MAXFLOAT;
         bounceAnimation.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.2, 1.2, 1.0)];
         bounceAnimation.toValue   = [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.8, 0.8, 1.0)];
         bounceAnimation.removedOnCompletion = NO;
         bounceAnimation.autoreverses = YES;
-
+        
         [_accuracyCircleAnnotation.layer addAnimation:bounceAnimation forKey:@"animateScale"];
-
+        
         [CATransaction commit];
     }
     else
     {
         [_accuracyCircleAnnotation.layer removeAnimationForKey:@"animateScale"];
     }
-
+    
     if ([newLocation distanceFromLocation:oldLocation])
         _accuracyCircleAnnotation.coordinate = newLocation.coordinate;
     
     if (newLocation.horizontalAccuracy != oldLocation.horizontalAccuracy)
         ((RMCircle *)_accuracyCircleAnnotation.layer).radiusInMeters = newLocation.horizontalAccuracy;
-     */
-
+    
+    
     if ( ! _trackingHaloAnnotation)
     {
         _trackingHaloAnnotation = [RMAnnotation annotationWithMapView:self coordinate:newLocation.coordinate andTitle:nil];
         _trackingHaloAnnotation.annotationType = kRMTrackingHaloAnnotationTypeName;
         _trackingHaloAnnotation.clusteringEnabled = NO;
         _trackingHaloAnnotation.enabled = NO;
-
+        
         // create image marker
         //
         _trackingHaloAnnotation.layer = [[RMMarker alloc] initWithUIImage:[self trackingDotHaloImage]];
         _trackingHaloAnnotation.isUserLocationAnnotation = YES;
-
+        
         [CATransaction begin];
-
+        
         if (RMPreVersion7)
         {
             [CATransaction setAnimationDuration:2.5];
@@ -3743,7 +3743,7 @@
             [CATransaction setAnimationDuration:3.5];
             [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
         }
-
+        
         // scale out radially
         //
         CABasicAnimation *boundsAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
@@ -3751,9 +3751,9 @@
         boundsAnimation.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.1, 0.1, 1.0)];
         boundsAnimation.toValue   = [NSValue valueWithCATransform3D:CATransform3DMakeScale(2.0, 2.0, 1.0)];
         boundsAnimation.removedOnCompletion = NO;
-
+        
         [_trackingHaloAnnotation.layer addAnimation:boundsAnimation forKey:@"animateScale"];
-
+        
         // go transparent as scaled out
         //
         CABasicAnimation *opacityAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
@@ -3761,11 +3761,11 @@
         opacityAnimation.fromValue = [NSNumber numberWithFloat:1.0];
         opacityAnimation.toValue   = [NSNumber numberWithFloat:-1.0];
         opacityAnimation.removedOnCompletion = NO;
-
+        
         [_trackingHaloAnnotation.layer addAnimation:opacityAnimation forKey:@"animateOpacity"];
-
+        
         [CATransaction commit];
-
+        
         [self addAnnotation:_trackingHaloAnnotation];
     }
     
@@ -3775,9 +3775,8 @@
     self.userLocation.layer.hidden = ( ! CLLocationCoordinate2DIsValid(self.userLocation.coordinate));
     
     // L4C
-    //_accuracyCircleAnnotation.layer.hidden = newLocation.horizontalAccuracy <= 10 || self.userLocation.hasCustomLayer;
-    
-    _trackingHaloAnnotation.layer.hidden = ( ! CLLocationCoordinate2DIsValid(self.userLocation.coordinate) || newLocation.horizontalAccuracy > 10 || self.userLocation.hasCustomLayer);
+    _accuracyCircleAnnotation.layer.hidden = newLocation.horizontalAccuracy <= 10 || self.userLocation.hasCustomLayer;
+    _trackingHaloAnnotation.layer.hidden = YES; //( ! CLLocationCoordinate2DIsValid(self.userLocation.coordinate) || newLocation.horizontalAccuracy > 10 || self.userLocation.hasCustomLayer);
     
     if ( ! [_annotations containsObject:self.userLocation])
         [self addAnnotation:self.userLocation];
