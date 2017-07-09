@@ -3410,17 +3410,20 @@
 
         _locationManager = [CLLocationManager new];
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
-        // enable iOS 8+ location authorization API
-        //
-        if ([CLLocationManager instancesRespondToSelector:@selector(requestWhenInUseAuthorization)])
-        {
-            BOOL hasLocationDescription = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationWhenInUseUsageDescription"] ||
-                [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysUsageDescription"];
-            NSAssert(hasLocationDescription, @"For iOS 8 and above, your app must have a value for NSLocationWhenInUseUsageDescription or NSLocationAlwaysUsageDescription in its Info.plist");
-            [_locationManager requestWhenInUseAuthorization];
-        }
-#endif
+        /*
+         L4C: Selber machen...
+         #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
+         // enable iOS 8+ location authorization API
+         //
+         if ([CLLocationManager instancesRespondToSelector:@selector(requestWhenInUseAuthorization)])
+         {
+         BOOL hasLocationDescription = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationWhenInUseUsageDescription"] ||
+         [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysUsageDescription"];
+         NSAssert(hasLocationDescription, @"For iOS 8 and above, your app must have a value for NSLocationWhenInUseUsageDescription or NSLocationAlwaysUsageDescription in its Info.plist");
+         [_locationManager requestWhenInUseAuthorization];
+         }
+         #endif
+         */
 
         _locationManager.headingFilter = 5.0;
         _locationManager.delegate = self;
