@@ -751,14 +751,15 @@
         BOOL hasBeforeMapMove = _delegateHasBeforeMapMove;
         BOOL hasAfterMapMove  = _delegateHasAfterMapMove;
 
-        if ([_moveDelegateQueue operationCount] == 0)
-        {
-            dispatch_async(dispatch_get_main_queue(), ^(void)
-            {
-                if (hasBeforeMapMove)
-                    [weakDelegate beforeMapMove:weakSelf byUser:flag];
-            });
-        }
+        // L4C
+        //if ([_moveDelegateQueue operationCount] == 0)
+        //{
+        dispatch_async(dispatch_get_main_queue(), ^(void)
+                       {
+                           if (hasBeforeMapMove)
+                               [weakDelegate beforeMapMove:weakSelf byUser:flag];
+                       });
+        //}
 
         [_moveDelegateQueue setSuspended:YES];
 
@@ -1045,8 +1046,10 @@
 
 - (void)moveBy:(CGSize)delta
 {
-    [self registerMoveEventByUser:NO];
-
+    // L4C
+    //[self registerMoveEventByUser:NO];
+    [self registerMoveEventByUser:YES];
+    
     CGPoint contentOffset = _mapScrollView.contentOffset;
     contentOffset.x += delta.width;
     contentOffset.y += delta.height;
