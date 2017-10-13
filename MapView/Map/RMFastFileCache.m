@@ -40,7 +40,7 @@
         
         // NSCache containing the filenames that are already stored
         self.imageNameCache = [[OSCache alloc] init];
-        self.imageNameCache.countLimit = 250;
+        self.imageNameCache.countLimit = 500;
         self.imageNameCache.totalCostLimit = 60000;
         self.imageNameCache.evictsObjectsWithDiscardedContent = NO;
         self.imageNameCache.delegate = self;
