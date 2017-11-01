@@ -1435,7 +1435,7 @@
     singleTapRecognizer.delegate = self;
 
     UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
-    longPressRecognizer.minimumPressDuration = 0.25;
+    longPressRecognizer.minimumPressDuration = 0.6;
     longPressRecognizer.allowableMovement = MAXFLOAT;
     longPressRecognizer.delegate = self;
 
