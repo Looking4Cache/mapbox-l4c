@@ -309,11 +309,24 @@
                 UIGraphicsEndImageContext();
             }
             
-            // L4C - Alpha value of tileSources
-            if ( _tileSource.alpha < 1.0f) {
-                [tileImage drawInRect:rect blendMode:kCGBlendModeNormal alpha:_tileSource.alpha];
+            // L4C - iOS 13 bug with [UIImage drawInRect]
+            if (@available(iOS 13, *)) {
+                CGRect mirroredRect = CGRectMake(rect.origin.x, -rect.origin.y, rect.size.width, rect.size.height);
+                CGContextSaveGState(context);
+                CGContextTranslateCTM(context, 0.0, rect.size.height);
+                CGContextScaleCTM(context, 1.0, -1.0);
+                if ( _tileSource.alpha < 1.0f) {
+                    CGContextSetAlpha(context, _tileSource.alpha);
+                }
+                CGContextDrawImage(context, mirroredRect, tileImage.CGImage);
+                CGContextRestoreGState(context);
             } else {
-                [tileImage drawInRect:rect];
+                // L4C - Alpha value of tileSources
+                if ( _tileSource.alpha < 1.0f) {
+                    [tileImage drawInRect:rect blendMode:kCGBlendModeNormal alpha:_tileSource.alpha];
+                } else {
+                    [tileImage drawInRect:rect];
+                }
             }
         }
         else
