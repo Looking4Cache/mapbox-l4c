@@ -553,4 +553,7 @@ typedef enum : NSUInteger {
 /** L4C : Zusätzliche Static-Overlay-Control--View */
 @property (nonatomic, assign) UIView<RMStaticOverlayControlView> *staticOverlayControlView;
 
+/** L4C : Für die UITests Location überschreiben */
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation;
+
 @end
