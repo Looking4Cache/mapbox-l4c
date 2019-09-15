@@ -15,7 +15,7 @@
         return nil;
     
     self.minZoom = 1;
-    self.maxZoom = 22;
+    self.maxZoom = 20;
     
     return self;
 }
@@ -27,7 +27,7 @@
               @"%@ tried to retrieve tile with zoomLevel %d, outside source's defined range %f to %f",
               self, tile.zoom, self.minZoom, self.maxZoom);
     
-    return [NSURL URLWithString:[NSString stringWithFormat:@"https://b.tiles.wmflabs.org/hikebike/%d/%d/%d.png", tile.zoom, tile.x, tile.y]];
+    return [NSURL URLWithString:[NSString stringWithFormat:@"http://b.tiles.wmflabs.org/hikebike/%d/%d/%d.png", tile.zoom, tile.x, tile.y]];
 }
 
 - (NSString *)uniqueTilecacheKey

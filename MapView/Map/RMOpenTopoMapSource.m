@@ -15,7 +15,7 @@
         return nil;
     
     self.minZoom = 1;
-    self.maxZoom = 22;
+    self.maxZoom = 17;
     
     return self;
 }
